@@ -255,6 +255,53 @@
     return { cargo, lugar };
   }
 
+  // Formación académica: muestra únicamente el grado más alto completado
+  // declarado por el candidato (posgrado > universitaria > técnica >
+  // secundaria > primaria). Los niveles inferiores no se muestran.
+  function formacionHTML(c) {
+    const posg = (c.posg || '').toString().trim();
+    let nivel, cells;
+    if (posg) {
+      nivel = 'Posgrado';
+      cells = [
+        cell('Profesión declarada', cap(c.prof), 'No declara'),
+        cell('Posgrado declarado', cap(c.posg), 'No declara'),
+        cell('Institución de posgrado', cap(c.instp))
+      ];
+    } else if (c.univ) {
+      nivel = 'Educación superior universitaria';
+      cells = [
+        cell('Profesión declarada', cap(c.prof), 'No declara'),
+        cell('Institución educativa', cap(c.inst))
+      ];
+    } else if (c.tecn) {
+      nivel = 'Educación superior técnica';
+      cells = [
+        cell('Profesión declarada', cap(c.prof), 'No declara'),
+        cell('Institución educativa', cap(c.inst))
+      ];
+    } else if (c.secu) {
+      nivel = 'Educación secundaria completa';
+      cells = [
+        cell('Estudios primarios', yn(c.prim)),
+        cell('Estudios secundarios', yn(c.secu))
+      ];
+    } else if (c.prim) {
+      nivel = 'Educación primaria completa';
+      cells = [
+        cell('Estudios primarios', yn(c.prim)),
+        cell('Estudios secundarios', yn(c.secu))
+      ];
+    } else {
+      nivel = 'No especifica';
+      cells = [];
+    }
+    const grid = cells.length ? `<div class="fx__grid2">${cells.join('')}</div>` : '';
+    return `<div class="fx__bar">Formación académica</div>
+        <div class="fx__subhead">${nivel}</div>
+        ${grid}`;
+  }
+
   function fichaHTML(c) {
     const p = postulaTxt(c);
     const edad = c.edad ? `${c.edad} años` : 'Edad no declarada';
@@ -290,21 +337,7 @@
           </div>
         </div>
 
-        <div class="fx__bar">Formación académica</div>
-        <div class="fx__subhead">Educación básica regular</div>
-        <div class="fx__grid2">
-          ${cell('Estudios primarios', yn(c.prim))}
-          ${cell('Estudios secundarios', yn(c.secu))}
-        </div>
-        <div class="fx__subhead">Educación superior</div>
-        <div class="fx__grid2">
-          ${cell('Estudios técnicos', yn(c.tecn))}
-          ${cell('Estudios universitarios', yn(c.univ))}
-          ${cell('Profesión declarada', cap(c.prof), 'No declara')}
-          ${cell('Institución educativa', cap(c.inst))}
-          ${cell('Posgrado declarado', cap(c.posg), 'No declara')}
-          ${cell('Institución de posgrado', cap(c.instp))}
-        </div>
+        ${formacionHTML(c)}
 
         <div class="fx__bar">Experiencia laboral</div>
         <div class="fx__grid2">
@@ -492,7 +525,16 @@
     const prevCand = rg.cand.value;
     rg.cand.innerHTML = '<option value="">Candidato</option>' +
       cands.map(c => `<option value="${escAttr(c.org)}">${cap(c.nom)} · ${cap(c.org)}</option>`).join('');
-    rg.cand.value = cands.some(c => c.org === prevCand) ? prevCand : '';
+    // Si el candidato previo sigue siendo válido, se conserva. Si hay un partido
+    // elegido y candidatos disponibles, se autoselecciona el candidato para que
+    // el usuario no tenga que elegirlo manualmente.
+    if (cands.some(c => c.org === prevCand)) {
+      rg.cand.value = prevCand;
+    } else if (org && cands.length) {
+      rg.cand.value = cands[0].org;
+    } else {
+      rg.cand.value = '';
+    }
     rg.cand.disabled = !cands.length;
   }
 
