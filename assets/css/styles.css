@@ -148,5 +148,10 @@ body{font-family:var(--sans);color:var(--ink);background:var(--bg);line-height:1
   .fx{padding:24px 20px}
 }
 
+/* En móvil, los filtros van a una sola columna */
+@media(max-width:560px){
+  .filters{grid-template-columns:1fr}
+}
+
 /* Separador entre la sección de candidatos y la de regidores */
 .section-sep{max-width:1180px;margin:56px auto;border-top:1px solid #e6e6e6}
