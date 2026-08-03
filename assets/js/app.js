@@ -71,8 +71,8 @@
     const cargo = getCargo();
     // Sin cargo seleccionado: limpiar dropdowns y salir.
     if (!cargo) {
-      fillSelect(el.region, [], 'Región');
-      fillSelect(el.org, [], 'Partido');
+      fillSelect(el.region, [], 'Selecciona…');
+      fillSelect(el.org, [], 'Selecciona…');
       el.prov.innerHTML = '<option value="">Provincia</option>';
       el.dist.innerHTML = '<option value="">Distrito</option>';
       el.prov.disabled = true; el.dist.disabled = true;
@@ -82,9 +82,9 @@
     }
     const ci = INDEX[cargo];
     // Región
-    fillSelect(el.region, Object.keys(ci.deps).sort(), 'Región');
+    fillSelect(el.region, Object.keys(ci.deps).sort(), 'Selecciona…');
     // Partido
-    fillSelect(el.org, ci.orgs, 'Partido');
+    fillSelect(el.org, ci.orgs, 'Selecciona…');
     // reset provincia/distrito
     el.prov.innerHTML = '<option value="">Provincia</option>';
     el.dist.innerHTML = '<option value="">Distrito</option>';
@@ -140,7 +140,7 @@
       orgs = INDEX[getCargo()].orgs;
     }
     const prev = el.org.value;
-    fillSelect(el.org, orgs, 'Partido');
+    fillSelect(el.org, orgs, 'Selecciona…');
     el.org.value = orgs.includes(prev) ? prev : '';
   }
 
@@ -531,7 +531,7 @@
     const heads = regHeadsInScope(lvl);
     const orgs = [...new Set(heads.map(c => c.org))].sort((a, b) => a.localeCompare(b, 'es'));
     const prevOrg = rg.org.value;
-    fillSelect(rg.org, orgs, 'Partido');
+    fillSelect(rg.org, orgs, 'Selecciona…');
     rg.org.value = orgs.includes(prevOrg) ? prevOrg : '';
     rg.org.disabled = !orgs.length;
 
@@ -561,7 +561,7 @@
     rg.wrapDist.style.display = '';
 
     if (!lvl) {
-      rg.org.innerHTML = '<option value="">Partido</option>'; rg.org.disabled = true;
+      rg.org.innerHTML = '<option value="">Selecciona…</option>'; rg.org.disabled = true;
       rg.cand.innerHTML = '<option value="">Candidato</option>'; rg.cand.disabled = true;
       regFiltered = []; regShown = 0; rg.list.innerHTML = '';
       rg.loadWrap.hidden = true;
@@ -748,6 +748,32 @@
   enhanceSelect(rg.org);
   enhanceSelect(rg.cand);
 
+  // ---- Estado activo de las columnas de filtro ----
+  // Una columna se pone en negro cuando tiene valor, su desplegable está
+  // abierto o su campo de texto tiene foco/contenido. Al cargar: todo inactivo.
+  function isColActive(fcol) {
+    if (fcol.querySelector('input[type="radio"]:checked')) return true;
+    for (const s of fcol.querySelectorAll('select')) if (s.value) return true;
+    if (fcol.querySelector('.dd.is-open')) return true;
+    const t = fcol.querySelector('input[type="text"]');
+    if (t && (t.value.trim() || document.activeElement === t)) return true;
+    return false;
+  }
+  function refreshActiveCols() {
+    document.querySelectorAll('.filters .fcol').forEach(fc => {
+      fc.classList.toggle('is-active', isColActive(fc));
+    });
+  }
+  document.querySelectorAll('.filters').forEach(f => {
+    f.addEventListener('change', refreshActiveCols);
+    f.addEventListener('input', refreshActiveCols);
+    f.addEventListener('focusin', refreshActiveCols);
+    f.addEventListener('focusout', () => setTimeout(refreshActiveCols, 0));
+    new MutationObserver(refreshActiveCols)
+      .observe(f, { subtree: true, attributes: true, attributeFilter: ['class'] });
+  });
+  refreshActiveCols();
+
   // ---- Init ----
   (async function init() {
     try {
@@ -758,7 +784,7 @@
       el.loadWrap.hidden = true;
       el.count.textContent = 'Usa los filtros para ver los candidatos.';
       REG_INDEX = await loadJSON('assets/data/reg_index.json');
-      fillSelect(rg.region, Object.keys(REG_INDEX.deps).sort(), 'Región');
+      fillSelect(rg.region, Object.keys(REG_INDEX.deps).sort(), 'Selecciona…');
       rg.count.textContent = 'Elige una región para empezar.';
     } catch (e) {
       el.count.textContent = 'No se pudieron cargar los datos. Sirve el sitio por HTTP (localhost).';
