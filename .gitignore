@@ -1,0 +1,9 @@
+# Fotos de candidatos (~92k archivos, 1.7 GB) -> se hostean en Backblaze B2, NO en GitHub.
+# Ver deploy/README-cdn-fotos-b2.md
+assets/fotos/
+
+# macOS
+.DS_Store
+
+# Dependencias del Worker (si instalas wrangler localmente)
+node_modules/

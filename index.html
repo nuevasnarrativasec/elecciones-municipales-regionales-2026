@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>¿Sabes por quién votar? · Elecciones Municipales y Regionales 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+
+<!-- Header -->
+<header class="topbar" style="display: none;">
+  <div class="topbar__inner">
+    <button class="topbar__menu" aria-label="Menú">&#9776;</button>
+    <span class="topbar__logo">El Comercio</span>
+    <span class="topbar__pill">Elecciones 2026</span>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero__badge"  style="display: none;">
+      <span class="hero__badge-top">TÚ DECIDES</span>
+      <span class="hero__badge-bottom">ELECCIONES MUNICIPALES 2026</span>
+    </div>
+    <h1 class="hero__title">¿Sabes por quién votar?</h1>
+    <p class="hero__sub">Consulta quiénes son los candidatos regionales y distritales del Perú.</p>
+  </section>
+
+  <!-- Filters -->
+  <section class="filters">
+    <!-- 1. Cargo -->
+    <div class="fcol">
+      <div class="fcol__head"><span class="step">1</span></div>
+      <h3 class="fcol__title">Cargo</h3>
+      <div class="radios" id="cargoGroup">
+        <label class="radio"><input type="radio" name="cargo" value="GOBERNADOR REGIONAL" checked><span>Gobernador regional</span></label>
+        <label class="radio"><input type="radio" name="cargo" value="ALCALDE PROVINCIAL"><span>Alcalde provincial</span></label>
+        <label class="radio"><input type="radio" name="cargo" value="ALCALDE DISTRITAL"><span>Alcalde distrital</span></label>
+      </div>
+    </div>
+
+    <!-- 2. Lugar de votación -->
+    <div class="fcol">
+      <div class="fcol__head"><span class="step">2</span></div>
+      <h3 class="fcol__title">Jurisdicción</h3>
+      <label class="field">
+        <select id="selRegion"><option value="">Región</option></select>
+      </label>
+      <label class="field" id="wrapProv">
+        <select id="selProv" disabled><option value="">Provincia</option></select>
+      </label>
+      <label class="field" id="wrapDist">
+        <select id="selDist" disabled><option value="">Distrito</option></select>
+      </label>
+    </div>
+
+    <!-- 3. Partido -->
+    <div class="fcol">
+      <div class="fcol__head"><span class="step">3</span></div>
+      <h3 class="fcol__title">Partido</h3>
+      <label class="field">
+        <select id="selOrg"><option value="">Partido</option></select>
+      </label>
+    </div>
+
+    <!-- 4. Buscar candidato -->
+    <div class="fcol">
+      <div class="fcol__head"><span class="step">4</span></div>
+      <h3 class="fcol__title">Candidato</h3>
+      <label class="field">
+        <input type="text" id="txtName" placeholder="Nombre del candidato" autocomplete="off">
+      </label>
+    </div>
+  </section>
+
+  <!-- Results -->
+  <section class="results">
+    <h2 class="results__title">Ver hoja de vida</h2>
+    <p class="results__count" id="resultCount"></p>
+    <ul class="candlist" id="candList"></ul>
+    <div class="loadmore" id="loadMoreWrap" hidden>
+      <button id="loadMore" class="btn-ghost">Ver más candidatos</button>
+    </div>
+  </section>
+
+  <!-- ======== Regidores ======== -->
+  <div class="section-sep"></div>
+
+  <section class="hero">
+    <h1 class="hero__title">Regidores</h1>
+    <p class="hero__sub">Conoce quiénes acompañan a tu candidato.</p>
+  </section>
+
+  <section class="filters">
+    <!-- 1. Jurisdicción -->
+    <div class="fcol">
+      <div class="fcol__head"><span class="step">1</span></div>
+      <h3 class="fcol__title">Jurisdicción</h3>
+      <label class="field">
+        <select id="rgRegion"><option value="">Región</option></select>
+      </label>
+      <label class="field" id="rgWrapProv">
+        <select id="rgProv" disabled><option value="">Provincia</option></select>
+      </label>
+      <label class="field" id="rgWrapDist">
+        <select id="rgDist" disabled><option value="">Distrito</option></select>
+      </label>
+    </div>
+
+    <!-- 2. Partido -->
+    <div class="fcol">
+      <div class="fcol__head"><span class="step">2</span></div>
+      <h3 class="fcol__title">Partido</h3>
+      <label class="field">
+        <select id="rgOrg" disabled><option value="">Partido</option></select>
+      </label>
+    </div>
+
+    <!-- 3. Candidato -->
+    <div class="fcol">
+      <div class="fcol__head"><span class="step">3</span></div>
+      <h3 class="fcol__title">Candidato</h3>
+      <label class="field">
+        <select id="rgCand" disabled><option value="">Candidato</option></select>
+      </label>
+    </div>
+
+    <!-- 4. Buscar regidor -->
+    <div class="fcol">
+      <div class="fcol__head"><span class="step">4</span></div>
+      <h3 class="fcol__title">Nombre</h3>
+      <label class="field">
+        <input type="text" id="rgName" placeholder="Nombre del regidor" autocomplete="off">
+      </label>
+    </div>
+  </section>
+
+  <section class="results">
+    <h2 class="results__title">Regidores que acompañan</h2>
+    <p class="results__count" id="rgCount"></p>
+    <ul class="candlist" id="rgList"></ul>
+    <div class="loadmore" id="rgLoadWrap" hidden>
+      <button id="rgLoadMore" class="btn-ghost">Ver más regidores</button>
+    </div>
+  </section>
+
+</main>
+
+<!-- Ficha modal -->
+<div class="modal" id="modal" hidden>
+  <div class="modal__backdrop" data-close></div>
+  <div class="modal__card" role="dialog" aria-modal="true" id="fichaCard"></div>
+</div>
+
+<script src="assets/js/app.js"></script>
+</body>
+</html>

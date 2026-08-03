@@ -1,0 +1,12 @@
+# Configuración del Cloudflare Worker que sirve las fotos desde Backblaze B2.
+# Desplegar con:  cd deploy/cloudflare-worker && npx wrangler deploy
+# (la primera vez: npx wrangler login)
+
+name = "elecciones-fotos"          # -> URL: https://elecciones-fotos.TU-SUBDOMINIO.workers.dev
+main = "worker.js"
+compatibility_date = "2026-01-01"
+workers_dev = true                 # publica en el subdominio *.workers.dev gratis
+
+[vars]
+# Base pública del bucket en Backblaze B2 (endpoint S3 + nombre del bucket).
+B2_PUBLIC_BASE = "https://s3.us-east-005.backblazeb2.com/elecciones-fotos"
