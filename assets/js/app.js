@@ -57,7 +57,7 @@
 
   function getCargo() {
     const c = el.cargoGroup.querySelector('input[name="cargo"]:checked');
-    return c ? c.value : 'GOBERNADOR REGIONAL';
+    return c ? c.value : '';
   }
 
   // ---- Poblar dropdowns según cargo ----
@@ -69,6 +69,17 @@
 
   function refreshForCargo() {
     const cargo = getCargo();
+    // Sin cargo seleccionado: limpiar dropdowns y salir.
+    if (!cargo) {
+      fillSelect(el.region, [], 'Región');
+      fillSelect(el.org, [], 'Partido');
+      el.prov.innerHTML = '<option value="">Provincia</option>';
+      el.dist.innerHTML = '<option value="">Distrito</option>';
+      el.prov.disabled = true; el.dist.disabled = true;
+      el.wrapProv.style.display = 'none';
+      el.wrapDist.style.display = 'none';
+      return;
+    }
     const ci = INDEX[cargo];
     // Región
     fillSelect(el.region, Object.keys(ci.deps).sort(), 'Región');
@@ -136,6 +147,12 @@
   // ---- Aplicar filtros ----
   async function applyFilters() {
     const cargo = getCargo();
+    if (!cargo) {
+      el.list.innerHTML = '';
+      el.loadWrap.hidden = true;
+      el.count.textContent = 'Elige un cargo para empezar.';
+      return;
+    }
     const slug = SLUG[cargo];
     el.count.textContent = 'Cargando…';
     if (!cache[slug]) {

@@ -40,12 +40,14 @@ header#header{
 .hero__badge-top{font-family:var(--serif);font-weight:800;font-size:20px;letter-spacing:.5px}
 .hero__badge-bottom{font-size:10px;font-weight:700;letter-spacing:.5px}
 .hero__title{font-family:var(--serif);font-weight:800;font-size:44px;margin:20px 0 8px}
-.hero__sub{color:var(--gray);font-size:15px;margin:0}
+.hero__sub{color:var(--gray);    font-size: 15px;
+    max-width: 450px;
+    margin: 5px auto;}
 
 /* Filters */
 .filters{display:grid;grid-template-columns:0.9fr 1.1fr 1fr 1fr;gap:26px;padding:20px 0 12px;border-bottom:1px solid var(--line)}
 .fcol__head{margin-bottom:8px}
-.step{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;background:#111;color:#fff;border-radius:50%;font-weight:700;font-size:14px}
+.step{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;background:#111;color:#fff;border-radius:50%;font-weight:700;font-size:14px; display: none;}
 .fcol__title{font-family:var(--serif);font-weight:700;font-size:17px;margin:0 0 12px}
 .radios{display:flex;flex-direction:column;gap:8px}
 .radio{display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:8px;padding:9px 12px;cursor:pointer;font-size:14px;transition:.15s}
