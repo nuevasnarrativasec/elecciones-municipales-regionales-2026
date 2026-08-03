@@ -47,7 +47,7 @@
   const norm = s => (s || '').toString().toLowerCase()
     .normalize('NFD').replace(/[\u0300-\u036f]/g, "");
   const cap = s => (s || '').toLowerCase().replace(/(^|\s|\/)\p{L}/gu, m => m.toUpperCase());
-  const val = (v, dash = 'No especifica') => (v === '' || v == null) ? dash : v;
+  const val = (v, dash = 'No declara') => (v === '' || v == null) ? dash : v;
 
   async function loadJSON(path) {
     const r = await fetch(path);
@@ -207,7 +207,7 @@
   function cell(label, value, dash) {
     const empty = value === '' || value == null;
     return `<div class="fx__cell"><div class="lbl">${label}</div>` +
-      `<div class="v${empty ? ' dash' : ''}">${empty ? (dash || 'No especifica') : value}</div></div>`;
+      `<div class="v${empty ? ' dash' : ''}">${empty ? (dash || 'No declara') : value}</div></div>`;
   }
   const yn = b => b ? 'Sí' : 'No';
 
@@ -234,7 +234,7 @@
   function sentBlock(title, has, raw) {
     const items = has ? parseSentencias(raw) : [];
     if (!items.length) {
-      return `<div class="fx__subhead">${title}</div><div class="fx__nosent">No registra</div>`;
+      return `<div class="fx__subhead">${title}</div><div class="fx__nosent">No declara</div>`;
     }
     const lis = items.map((s, i) => {
       const campos = s.campos.map(f => f.k
@@ -293,7 +293,7 @@
         cell('Estudios secundarios', yn(c.secu))
       ];
     } else {
-      nivel = 'No especifica';
+      nivel = 'No declara';
       cells = [];
     }
     const grid = cells.length ? `<div class="fx__grid2">${cells.join('')}</div>` : '';
@@ -350,9 +350,9 @@
             <div class="fx__bar">Trayectoria política</div>
             <div class="fx__grid2" style="grid-template-columns:1fr">
               ${cell('Tiene cargos de elección popular', yn(c.tce))}
-              ${cell('Cargos de elección popular', c.tce ? cap(c.cep) : '', 'No registra')}
+              ${cell('Cargos de elección popular', c.tce ? cap(c.cep) : '', 'No declara')}
               ${cell('Tiene cargos partidarios', yn(c.tcp))}
-              ${cell('Cargo partidario', c.tcp ? cap(c.cp) : '', 'No registra')}
+              ${cell('Cargo partidario', c.tcp ? cap(c.cp) : '', 'No declara')}
             </div>
           </div>
           <div class="fx__midcol">
@@ -612,12 +612,134 @@
     if (b) showFicha(regData.find(x => x.id === +b.dataset.id));
   });
 
+  /* =======================================================================
+     DROPDOWNS PERSONALIZADOS
+     Sustituyen la UI del <select> nativo (que en varios móviles obliga a un
+     segundo toque en "Realizado"). El <select> real se mantiene oculto como
+     fuente de datos y de eventos; el panel propio selecciona con UN solo toque
+     y, en los filtros de jurisdicción, abre automáticamente el siguiente.
+     ======================================================================= */
+  const DDMAP = new Map();
+
+  function closeAllDD() { DDMAP.forEach(a => a.close()); }
+
+  function enhanceSelect(sel, onSelect) {
+    const wrap = document.createElement('div');
+    wrap.className = 'dd';
+    sel.parentNode.insertBefore(wrap, sel);
+    wrap.appendChild(sel);
+    sel.classList.add('dd__native');
+    sel.setAttribute('tabindex', '-1');
+    sel.setAttribute('aria-hidden', 'true');
+
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'dd__btn';
+    btn.setAttribute('aria-haspopup', 'listbox');
+    btn.setAttribute('aria-expanded', 'false');
+    btn.innerHTML = '<span class="dd__label"></span>' +
+      '<svg class="dd__chev" width="12" height="8" viewBox="0 0 12 8" aria-hidden="true">' +
+      '<path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    const panel = document.createElement('div');
+    panel.className = 'dd__panel';
+    panel.setAttribute('role', 'listbox');
+    panel.hidden = true;
+    wrap.appendChild(btn);
+    wrap.appendChild(panel);
+    const labelEl = btn.querySelector('.dd__label');
+
+    function syncLabel() {
+      const o = sel.options[sel.selectedIndex];
+      labelEl.textContent = o ? o.textContent : '';
+      btn.classList.toggle('is-placeholder', !sel.value);
+      btn.disabled = sel.disabled;
+      wrap.classList.toggle('is-disabled', sel.disabled);
+    }
+    function buildOptions() {
+      panel.innerHTML = '';
+      [...sel.options].forEach(o => {
+        if (o.value === '') return; // el placeholder no se lista como opción
+        const it = document.createElement('button');
+        it.type = 'button';
+        it.className = 'dd__opt';
+        it.setAttribute('role', 'option');
+        it.textContent = o.textContent;
+        if (o.value === sel.value) it.setAttribute('aria-selected', 'true');
+        it.addEventListener('click', () => {
+          sel.value = o.value;
+          syncLabel();
+          closeAllDD();
+          sel.dispatchEvent(new Event('change', { bubbles: true }));
+          if (onSelect) onSelect();
+        });
+        panel.appendChild(it);
+      });
+      if (!panel.children.length) panel.innerHTML = '<div class="dd__empty">Sin opciones</div>';
+    }
+    function open() {
+      if (sel.disabled || sel.options.length <= 1) return;
+      closeAllDD();
+      buildOptions();
+      panel.hidden = false;
+      btn.setAttribute('aria-expanded', 'true');
+      wrap.classList.add('is-open');
+      const cur = panel.querySelector('[aria-selected="true"]');
+      if (cur) cur.scrollIntoView({ block: 'nearest' });
+    }
+    function close() {
+      panel.hidden = true;
+      btn.setAttribute('aria-expanded', 'false');
+      wrap.classList.remove('is-open');
+    }
+    btn.addEventListener('click', () => { wrap.classList.contains('is-open') ? close() : open(); });
+    new MutationObserver(syncLabel).observe(sel, { childList: true, attributes: true, attributeFilter: ['disabled'] });
+    sel.addEventListener('change', syncLabel);
+    syncLabel();
+
+    const api = { open, close, sel, wrap };
+    DDMAP.set(sel, api);
+    return api;
+  }
+
+  // Devuelve un callback que abre el primer dropdown siguiente que esté
+  // visible, habilitado y con opciones (solo cadena de jurisdicción).
+  function advancer(nexts) {
+    return () => {
+      for (const s of nexts) {
+        const field = s.closest('.field');
+        if (field && field.offsetParent === null) continue; // oculto
+        if (s.disabled || s.options.length <= 1) continue;   // sin opciones
+        const api = DDMAP.get(s);
+        if (api) api.open();
+        return;
+      }
+    };
+  }
+
+  document.addEventListener('click', e => { if (!e.target.closest('.dd')) closeAllDD(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAllDD(); });
+
+  // Candidatos: Región -> Provincia -> Distrito (Partido queda como último paso)
+  enhanceSelect(el.region, advancer([el.prov, el.dist]));
+  enhanceSelect(el.prov, advancer([el.dist]));
+  enhanceSelect(el.dist);
+  enhanceSelect(el.org);
+  // Regidores: Región -> Provincia -> Distrito (Partido/Candidato se llenan async)
+  enhanceSelect(rg.region, advancer([rg.prov, rg.dist]));
+  enhanceSelect(rg.prov, advancer([rg.dist]));
+  enhanceSelect(rg.dist);
+  enhanceSelect(rg.org);
+  enhanceSelect(rg.cand);
+
   // ---- Init ----
   (async function init() {
     try {
       INDEX = await loadJSON('assets/data/index.json');
       refreshForCargo();
-      await applyFilters();
+      // El listado arranca vacío: se muestra al interactuar con los filtros.
+      el.list.innerHTML = '';
+      el.loadWrap.hidden = true;
+      el.count.textContent = 'Usa los filtros para ver los candidatos.';
       REG_INDEX = await loadJSON('assets/data/reg_index.json');
       fillSelect(rg.region, Object.keys(REG_INDEX.deps).sort(), 'Región');
       rg.count.textContent = 'Elige una región para empezar.';
