@@ -144,13 +144,35 @@
     el.org.value = orgs.includes(prev) ? prev : '';
   }
 
+  // Carga (y cachea) los candidatos de los tres cargos, y los combina.
+  async function loadAllCargos() {
+    const slugs = Object.values(SLUG);
+    for (const s of slugs) {
+      if (!cache[s]) cache[s] = await loadJSON(`assets/data/cand_${s}.json`);
+    }
+    return slugs.flatMap(s => cache[s]);
+  }
+
   // ---- Aplicar filtros ----
   async function applyFilters() {
     const cargo = getCargo();
+    // Sin cargo seleccionado: permitir búsqueda directa por nombre en todos los cargos.
     if (!cargo) {
+      const q = norm(el.name.value.trim());
+      if (q.length < 2) {
+        el.list.innerHTML = '';
+        el.loadWrap.hidden = true;
+        el.count.textContent = 'Elige un cargo o escribe un nombre.';
+        return;
+      }
+      el.count.textContent = 'Buscando…';
+      try { current = await loadAllCargos(); }
+      catch (e) { el.count.textContent = 'Error al cargar los datos.'; return; }
+      filtered = current.filter(c => norm(c.nom).includes(q));
+      shown = 0;
       el.list.innerHTML = '';
-      el.loadWrap.hidden = true;
-      el.count.textContent = 'Elige un cargo para empezar.';
+      renderMore();
+      el.count.textContent = `${filtered.length.toLocaleString('es-PE')} candidato${filtered.length === 1 ? '' : 's'}`;
       return;
     }
     const slug = SLUG[cargo];
@@ -203,7 +225,7 @@
 
   function cardHTML(c) {
     const loc = [cap(c.dist), cap(c.prov), cap(c.dep)].filter(Boolean).join(', ');
-    return `<li><button class="candcard" data-id="${c.id}">
+    return `<li><button class="candcard" data-dni="${c.dni}">
       <span class="candcard__avatar"><span class="ini">${initials(c.nom).toUpperCase()}</span><img src="${FOTOS}${c.dni}.jpg" alt="" loading="lazy" onerror="this.remove()"></span>
       <span class="candcard__body">
         <span class="candcard__name">${cap(c.nom)}</span>
@@ -421,8 +443,8 @@
     el.modal.hidden = false;
     document.body.style.overflow = 'hidden';
   }
-  function openFicha(id) {
-    showFicha(current.find(x => x.id === +id));
+  function openFicha(dni) {
+    showFicha(current.find(x => String(x.dni) === String(dni)));
   }
   function closeFicha() {
     el.modal.hidden = true;
@@ -442,7 +464,7 @@
 
   el.list.addEventListener('click', e => {
     const b = e.target.closest('.candcard');
-    if (b) openFicha(b.dataset.id);
+    if (b) openFicha(b.dataset.dni);
   });
   el.modal.addEventListener('click', e => { if (e.target.hasAttribute('data-close')) closeFicha(); });
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && !el.modal.hidden) closeFicha(); });
@@ -555,6 +577,44 @@
     rg.cand.disabled = !cands.length;
   }
 
+  // Índice ligero [nombre, índiceDepto] para buscar regidores por nombre sin región.
+  let REG_NAMES = null;
+  async function loadRegNames() {
+    if (!REG_NAMES) REG_NAMES = await loadJSON('assets/data/reg_names.json');
+    return REG_NAMES;
+  }
+
+  // Búsqueda directa por nombre en todos los departamentos: primero se ubica en
+  // el índice qué departamentos tienen coincidencias y solo esos se descargan.
+  async function regSearchByName(q) {
+    const idx = await loadRegNames();
+    const depSet = new Set();
+    for (const [nom, di] of idx.r) if (norm(nom).includes(q)) depSet.add(di);
+
+    if (!depSet.size) {
+      regData = []; regFiltered = []; regShown = 0;
+      rg.list.innerHTML = ''; rg.loadWrap.hidden = true;
+      rg.count.textContent = '0 regidores';
+      return;
+    }
+    if (depSet.size > 8) {
+      rg.list.innerHTML = ''; rg.loadWrap.hidden = true;
+      rg.count.textContent = 'Escribe el nombre completo para acotar la búsqueda.';
+      return;
+    }
+    rg.count.textContent = 'Buscando…';
+    const slugs = [...depSet].map(i => idx.deps[i]);
+    try {
+      for (const s of slugs) if (!regCache[s]) regCache[s] = await loadJSON(`assets/data/reg/${s}.json`);
+    } catch (e) { rg.count.textContent = 'Error al cargar los datos.'; return; }
+
+    regData = slugs.flatMap(s => regCache[s]);
+    regFiltered = regData.filter(r => norm(r.nom).includes(q));
+    regShown = 0; rg.list.innerHTML = '';
+    regRenderMore();
+    rg.count.textContent = `${regFiltered.length.toLocaleString('es-PE')} regidor${regFiltered.length === 1 ? '' : 'es'}`;
+  }
+
   async function regApply() {
     const lvl = regLevel();
     rg.wrapProv.style.display = '';
@@ -563,9 +623,11 @@
     if (!lvl) {
       rg.org.innerHTML = '<option value="">Selecciona…</option>'; rg.org.disabled = true;
       rg.cand.innerHTML = '<option value="">Candidato</option>'; rg.cand.disabled = true;
+      const q = norm(rg.name.value.trim());
+      if (q.length >= 3) { await regSearchByName(q); return; }
       regFiltered = []; regShown = 0; rg.list.innerHTML = '';
       rg.loadWrap.hidden = true;
-      rg.count.textContent = 'Elige una región para empezar.';
+      rg.count.textContent = 'Elige una región o escribe un nombre.';
       return;
     }
 
@@ -626,7 +688,7 @@
   rg.loadMore.addEventListener('click', regRenderMore);
   rg.list.addEventListener('click', e => {
     const b = e.target.closest('.candcard');
-    if (b) showFicha(regData.find(x => x.id === +b.dataset.id));
+    if (b) showFicha(regData.find(x => String(x.dni) === String(b.dataset.dni)));
   });
 
   /* =======================================================================
