@@ -87,6 +87,7 @@ header#header{
 /* Results */
 .results{padding-top:30px}
 .results__title{text-align:center;font-family:var(--serif);font-weight:700;font-size:30px;margin:0 0 6px; line-height: 1.2;}
+.results__title--cv{font-family:"Roboto",Arial,sans-serif;font-weight:700;text-transform:uppercase;}
 .results__count{text-align:center;color:var(--gray);font-size:13px;margin:0 0 22px}
 .candlist{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
 .candcard{display:flex;gap:14px;align-items:center;border:1px solid var(--line);border-radius:12px;padding:14px 16px;cursor:pointer;transition:.15s;background:#fff;text-align:left}
