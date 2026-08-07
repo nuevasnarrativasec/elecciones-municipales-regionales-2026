@@ -105,7 +105,7 @@ header#header{
 .btn-ghost:hover{background:#111;color:#fff}
 
 /* Modal / Ficha */
-.modal{position:fixed;inset:0;z-index:50;display:flex;align-items:flex-start;justify-content:center;padding:40px 16px;overflow-y:auto}
+.modal{position:fixed;inset:0;z-index:50;display:flex;align-items:flex-start;justify-content:center; padding: 70px 16px 30px;overflow-y:auto}
 .modal[hidden]{display:none}
 .modal__backdrop{position:fixed;inset:0;background:rgba(0,0,0,.5)}
 .modal__card{position:relative;background:#fff;border-radius:16px;max-width:570px;width:100%;padding:0;box-shadow:0 20px 60px rgba(0,0,0,.3)}
@@ -122,6 +122,9 @@ header#header{
     margin-bottom: 18px;
     flex-direction: column;
     text-align: center;}
+.top-head-ficha{
+  margin-top: -60px;
+}
 .fx__photowrap{position:relative;width:130px;height:130px;flex-shrink:0}
 .fx__plogo{position:absolute;right:-4px;bottom:0;width:42px;height:42px;border-radius:50%;background:#fff;object-fit:contain;padding:3px;box-shadow:0 1px 4px rgba(0,0,0,.25);z-index:2}
 .fx__photo{position:absolute;inset:0;border-radius:50%;border:9px solid transparent;background:linear-gradient(#dfe4ee,#dfe4ee) padding-box,linear-gradient(360deg,var(--ring1,#fff),var(--ring2,var(--navy))) border-box;overflow:hidden}

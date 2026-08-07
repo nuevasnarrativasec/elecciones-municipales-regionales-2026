@@ -367,7 +367,7 @@
       <button class="ficha__close" data-close aria-label="Cerrar">&times;</button>
       <div class="fx">
 
-        <div class="fx__top">
+        <div class="fx__top top-head-ficha">
           <div class="fx__photowrap">
             <div class="fx__photo"><span class="ini">${initials(c.nom).toUpperCase()}</span><img src="${FOTOS}${c.dni}.jpg" alt="${cap(c.nom)}" loading="lazy" onerror="this.remove()"></div>
             <img class="fx__plogo" src="${LOGOS}${slugOrg(c.org)}.png" alt="" onerror="this.remove()">
