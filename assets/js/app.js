@@ -71,7 +71,7 @@
     const cargo = getCargo();
     // Sin cargo seleccionado: limpiar dropdowns y salir.
     if (!cargo) {
-      fillSelect(el.region, [], 'Selecciona…');
+      fillSelect(el.region, [], 'Región');
       fillSelect(el.org, [], 'Selecciona…');
       el.prov.innerHTML = '<option value="">Provincia</option>';
       el.dist.innerHTML = '<option value="">Distrito</option>';
@@ -82,7 +82,7 @@
     }
     const ci = INDEX[cargo];
     // Región
-    fillSelect(el.region, Object.keys(ci.deps).sort(), 'Selecciona…');
+    fillSelect(el.region, Object.keys(ci.deps).sort(), 'Región');
     // Partido
     fillSelect(el.org, ci.orgs, 'Selecciona…');
     // reset provincia/distrito
