@@ -108,7 +108,7 @@ header#header{
 .modal{position:fixed;inset:0;z-index:50;display:flex;align-items:flex-start;justify-content:center; padding: 70px 16px 30px;overflow-y:auto}
 .modal[hidden]{display:none}
 .modal__backdrop{position:fixed;inset:0;background:rgba(0,0,0,.5)}
-.modal__card{position:relative;background:#fff;border-radius:16px;max-width:570px;width:100%;padding:0;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.modal__card{position:relative;background:#fff;border-radius:16px;max-width:540px;width:100%;padding:0;box-shadow:0 20px 60px rgba(0,0,0,.3)}
 .ficha__close{position:absolute;top:16px;right:16px;width:36px;height:36px;border-radius:50%;border:none;background:#111;font-size:20px;cursor:pointer;line-height:1;color:#fff;z-index:2;display:flex;align-items:center;justify-content:center}
 .ficha__close:hover{background:#333}
 
