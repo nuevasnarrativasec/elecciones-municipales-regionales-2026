@@ -130,6 +130,9 @@ header#header{
 /* Fila Postula / Transparencia */
 .fx__deck{display:grid;grid-template-columns:1fr 1fr;gap:205px;align-items:start;border-top:1px solid #e6e6e6;padding-top:18px;margin-bottom:8px}
 .fx__decklbl{font-weight:700;font-size:13px;color:#1a1a1a;margin-bottom:7px}
+.postula{
+  padding-left: 15px;
+}
 .fx__postula{background:var(--pblue);color:#fff;border-radius:8px;padding:12px 16px;font-size:14px;line-height:1.4}
 .fx__postula b{font-weight:800}
 .fx__pdf{display:inline-flex;align-items:center;gap:11px;border:1px solid #000;border-radius:8px;padding:10px 14px;font-size:12px;color:#333;text-decoration:none;line-height:1.3;background:#fff}
@@ -186,6 +189,9 @@ background: linear-gradient(180deg, rgba(148, 159, 193, 1) 0%, rgba(235, 235, 23
   .filters{grid-template-columns:1fr}
   .fcol{
         margin-bottom: 30px;
+  }
+  #candList li{
+        width: 84%;
   }
 }
 

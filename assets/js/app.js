@@ -381,7 +381,7 @@
 
         <div class="fx__deck">
           <div class="fx__deckcol">
-            <div class="fx__decklbl">Postula:</div>
+            <div class="fx__decklbl postula">Postula:</div>
             <div class="fx__postula"><b>${p.cargo}</b><br>${p.lugar}.</div>
           </div>
           <div class="fx__deckcol">
