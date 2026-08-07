@@ -361,7 +361,7 @@
 
     const pdfBtn = `<span class="fx__pdf is-disabled" title="No disponible en esta versión">
         <img src="assets/img/pdf-icon.png" alt="" width="30" height="32">
-        <span>Descargar hoja de<br>vida original en PDF</span></span>`;
+        <span>Descargar hoja de vida original en PDF</span></span>`;
 
     return `
       <button class="ficha__close" data-close aria-label="Cerrar">&times;</button>
