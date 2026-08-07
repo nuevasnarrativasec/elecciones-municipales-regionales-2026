@@ -90,15 +90,15 @@ header#header{
 .results__title--cv{font-family:"Roboto",Arial,sans-serif;font-weight:700;text-transform:uppercase;}
 .results__count{text-align:center;color:var(--gray);font-size:13px;margin:0 0 22px}
 .candlist{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-.candcard{display:flex;gap:14px;align-items:center;border:1px solid var(--line);border-radius:12px;padding:14px 16px;cursor:pointer;transition:.15s;background:#fff;text-align:left}
+.candcard{display:flex;gap:14px;align-items:center;border:1px solid var(--line);border-radius:12px;padding:14px 16px;cursor:pointer;transition:.15s;background:#fff;text-align:left;width:100%;min-width:0;box-sizing:border-box}
 .candcard:hover{border-color:#111;box-shadow:0 4px 14px rgba(0,0,0,.06)}
 .candcard__avatar{position:relative;width:46px;height:46px;border-radius:50%;background:#eee;overflow:hidden;flex-shrink:0}
 .candcard__avatar .ini{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-weight:700;color:#888;font-size:15px}
 .candcard__avatar img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top center}
-.candcard__body{min-width:0}
-.candcard__name{font-weight:700;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;     color: #000 !important;}
-.candcard__meta{font-size:12.5px;color:var(--gray);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.candcard__loc{font-size:12px;color:#999;margin-top:2px}
+.candcard__body{min-width:0;flex:1;display:flex;flex-direction:column}
+.candcard__name{display:block;max-width:100%;font-weight:700;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#000 !important;}
+.candcard__meta{display:block;max-width:100%;font-size:12.5px;color:var(--gray);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.candcard__loc{display:block;max-width:100%;font-size:12px;color:#999;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .empty{grid-column:1/-1;text-align:center;color:var(--gray);padding:40px 0;font-size:14px}
 .loadmore{text-align:center;margin-top:22px}
 .btn-ghost{border:1px solid #111;background:#fff;padding:10px 22px;border-radius:24px;font-weight:600;cursor:pointer;font-size:14px}
