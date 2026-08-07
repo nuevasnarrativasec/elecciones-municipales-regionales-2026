@@ -384,7 +384,7 @@
             <div class="fx__decklbl postula">Postula:</div>
             <div class="fx__postula"><b>${p.cargo}</b><br>${p.lugar}.</div>
           </div>
-          <div class="fx__deckcol">
+          <div class="fx__deckcol transparencia">
             <div class="fx__decklbl">Transparencia:</div>
             ${pdfBtn}
           </div>
