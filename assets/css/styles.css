@@ -108,16 +108,21 @@ header#header{
 .modal{position:fixed;inset:0;z-index:50;display:flex;align-items:flex-start;justify-content:center;padding:40px 16px;overflow-y:auto}
 .modal[hidden]{display:none}
 .modal__backdrop{position:fixed;inset:0;background:rgba(0,0,0,.5)}
-.modal__card{position:relative;background:#fff;border-radius:16px;max-width:650px;width:100%;padding:0;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.modal__card{position:relative;background:#fff;border-radius:16px;max-width:570px;width:100%;padding:0;box-shadow:0 20px 60px rgba(0,0,0,.3)}
 .ficha__close{position:absolute;top:16px;right:16px;width:36px;height:36px;border-radius:50%;border:none;background:#111;font-size:20px;cursor:pointer;line-height:1;color:#fff;z-index:2;display:flex;align-items:center;justify-content:center}
 .ficha__close:hover{background:#333}
 
 /* ---- Ficha (diseño hoja de vida) ---- */
-.fx{--navy:#1f356e;--pblue:#33509d;--cream:#fdf3ec;--creamline:#efe0d3;--gray:#e9e9e9;padding:30px 34px 24px;font-size:14px;color:#1a1a1a}
+.fx{--navy:#1f356e;--pblue:#33509d;--cream:#fdf3ec;--creamline:#efe0d3;--gray:#e9e9e9;padding:30px 10px 24px;font-size:14px;color:#1a1a1a}
 
 /* Cabecera: foto a la izquierda + identidad */
-.fx__top{display:flex;align-items:center;gap:22px;margin-bottom:18px}
-.fx__photowrap{position:relative;width:116px;height:116px;flex-shrink:0}
+.fx__top{    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 18px;
+    flex-direction: column;
+    text-align: center;}
+.fx__photowrap{position:relative;width:130px;height:130px;flex-shrink:0}
 .fx__plogo{position:absolute;right:-4px;bottom:0;width:42px;height:42px;border-radius:50%;background:#fff;object-fit:contain;padding:3px;box-shadow:0 1px 4px rgba(0,0,0,.25);z-index:2}
 .fx__photo{position:absolute;inset:0;border-radius:50%;border:9px solid transparent;background:linear-gradient(#dfe4ee,#dfe4ee) padding-box,linear-gradient(360deg,var(--ring1,#fff),var(--ring2,var(--navy))) border-box;overflow:hidden}
 .fx__photo .ini{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-weight:800;color:var(--navy);font-size:30px}
@@ -128,8 +133,8 @@ header#header{
 .fx__party{color:#666;font-size:14px;line-height:1.4}
 
 /* Fila Postula / Transparencia */
-.fx__deck{display:grid;grid-template-columns:1fr 1fr;gap:205px;align-items:start;border-top:1px solid #e6e6e6;padding-top:18px;margin-bottom:8px}
-.fx__decklbl{font-weight:700;font-size:13px;color:#1a1a1a;margin-bottom:7px}
+.fx__deck{display:grid;grid-template-columns:1fr 1fr;gap:160px;align-items:start;border-top:1px solid #e6e6e6;padding-top:18px;margin-bottom:8px}
+.fx__decklbl{font-weight:700;font-size:13px;color:#1a1a1a;margin-bottom:2px}
 .postula{
   padding-left: 15px;
 }
@@ -143,7 +148,7 @@ header#header{
 /* Bloque de sección: cabecera gris + cuerpo cream */
 .fx__sec{margin:16px 0}
 .fx__sechead{background:var(--gray);border-radius:8px;padding:10px 16px 15px;font-weight:800;font-size:14px;letter-spacing:.4px;text-transform:uppercase;color:#2b2b2b}
-.fx__secbody{background:var(--cream);border-radius:10px;margin-top:-12px;padding:16px 6px;display:grid;grid-template-columns:1fr 1fr}
+.fx__secbody{background:#FFF8F2;border-radius:10px;margin-top:-12px;padding:16px 6px;display:grid;grid-template-columns:1fr 1fr}
 .fx__col{padding:2px 20px}
 .fx__col+.fx__col{border-left:1px solid var(--creamline)}
 .fx__row{display:flex;gap:10px;margin:0 0 14px}
