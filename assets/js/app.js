@@ -242,12 +242,29 @@
     return 'S/ ' + n.toLocaleString('es-PE');
   }
 
-  // celda etiqueta + valor
-  function cell(label, value, dash) {
+  // Fila etiqueta + valor con viñeta (nuevo diseño de bloques)
+  function secRow(label, value, opts = {}) {
     const empty = value === '' || value == null;
-    return `<div class="fx__cell"><div class="lbl">${label}</div>` +
-      `<div class="v${empty ? ' dash' : ''}">${empty ? (dash || 'No declara') : value}</div></div>`;
+    const dash = opts.dash || 'No declara';
+    const big = opts.big ? ' fx__row--big' : '';
+    return `<div class="fx__row${big}"><span class="fx__dot"></span>` +
+      `<div class="fx__rowtxt"><div class="lbl">${label}</div>` +
+      `<div class="v${empty ? ' dash' : ''}">${empty ? dash : value}</div></div></div>`;
   }
+
+  // Bloque de sección: cabecera gris + cuerpo cream de dos columnas
+  function secBlock(title, left, right, mod = '') {
+    const L = left.filter(Boolean).join('');
+    const R = right.filter(Boolean).join('');
+    return `<div class="fx__sec${mod}">
+        <div class="fx__sechead">${title}</div>
+        <div class="fx__secbody">
+          <div class="fx__col">${L}</div>
+          <div class="fx__col">${R}</div>
+        </div>
+      </div>`;
+  }
+
   const yn = b => b ? 'Sí' : 'No';
 
   // sentence-case para texto legal en mayúsculas
@@ -270,18 +287,28 @@
     });
   }
 
-  function sentBlock(title, has, raw) {
+  // Tarjeta de sentencias (penales o civiles) dentro del bloque azul.
+  function sentCard(kind, title, has, n, raw) {
     const items = has ? parseSentencias(raw) : [];
+    const count = has ? (n || items.length || 1) : 0;
+    let body;
     if (!items.length) {
-      return `<div class="fx__subhead">${title}</div><div class="fx__nosent">No declara</div>`;
+      body = `<div class="fx__sc-none">${has ? 'Sin detalle declarado.' : 'No declara.'}</div>`;
+    } else {
+      body = items.map(s => {
+        const detalle = s.titulo
+          ? `<div class="fx__sc-f"><b>Detalle:</b> ${sc(s.titulo)}</div>` : '';
+        const campos = s.campos.map(f => f.k
+          ? `<div class="fx__sc-f"><b>${sc(f.k)}:</b> ${sc(f.v)}</div>`
+          : `<div class="fx__sc-f">${sc(f.v)}</div>`).join('');
+        return detalle + campos;
+      }).join('<div class="fx__sc-sep"></div>');
     }
-    const lis = items.map((s, i) => {
-      const campos = s.campos.map(f => f.k
-        ? `<div class="sf"><b>${sc(f.k)}:</b> ${sc(f.v)}</div>`
-        : `<div class="sf">${sc(f.v)}</div>`).join('');
-      return `<li><div class="st">${i + 1}. ${sc(s.titulo)}</div>${campos}</li>`;
-    }).join('');
-    return `<div class="fx__subhead">${title} · ${items.length}</div><ul class="fx__sent">${lis}</ul>`;
+    return `<div class="fx__sc-card">
+        <div class="fx__sc-kind">${kind}</div>
+        <div class="fx__sc-count"><span>${title}</span><b>${count}</b></div>
+        ${body}
+      </div>`;
   }
 
   // "Alcalde distrital San Miguel, Lima." según el cargo
@@ -294,51 +321,34 @@
     return { cargo, lugar };
   }
 
-  // Formación académica: muestra únicamente el grado más alto completado
-  // declarado por el candidato (posgrado > universitaria > técnica >
-  // secundaria > primaria). Los niveles inferiores no se muestran.
-  function formacionHTML(c) {
+  // Formación académica -> filas para columnas izquierda/derecha del bloque.
+  // Muestra el grado más alto declarado (posgrado > universitaria > técnica >
+  // secundaria > primaria).
+  function formacionRows(c) {
     const posg = (c.posg || '').toString().trim();
-    let nivel, cells;
     if (posg) {
-      nivel = 'Posgrado';
-      cells = [
-        cell('Profesión declarada', cap(c.prof), 'No declara'),
-        cell('Posgrado declarado', cap(c.posg), 'No declara'),
-        cell('Institución de posgrado', cap(c.instp))
-      ];
-    } else if (c.univ) {
-      nivel = 'Educación superior universitaria';
-      cells = [
-        cell('Profesión declarada', cap(c.prof), 'No declara'),
-        cell('Institución educativa', cap(c.inst))
-      ];
-    } else if (c.tecn) {
-      nivel = 'Educación superior técnica';
-      cells = [
-        cell('Profesión declarada', cap(c.prof), 'No declara'),
-        cell('Institución educativa', cap(c.inst))
-      ];
-    } else if (c.secu) {
-      nivel = 'Educación secundaria completa';
-      cells = [
-        cell('Estudios primarios', yn(c.prim)),
-        cell('Estudios secundarios', yn(c.secu))
-      ];
-    } else if (c.prim) {
-      nivel = 'Educación primaria completa';
-      cells = [
-        cell('Estudios primarios', yn(c.prim)),
-        cell('Estudios secundarios', yn(c.secu))
-      ];
-    } else {
-      nivel = 'No declara';
-      cells = [];
+      return {
+        left: [
+          secRow('Profesión declarada', cap(c.prof)),
+          secRow('Institución educativa', cap(c.inst))
+        ],
+        right: [
+          secRow('Posgrado declarado', cap(c.posg)),
+          secRow('Institución de posgrado', cap(c.instp))
+        ]
+      };
     }
-    const grid = cells.length ? `<div class="fx__grid2">${cells.join('')}</div>` : '';
-    return `<div class="fx__bar">Formación académica</div>
-        <div class="fx__subhead">${nivel}</div>
-        ${grid}`;
+    if (c.univ || c.tecn) {
+      const nivel = c.univ ? 'Educación superior universitaria' : 'Educación superior técnica';
+      return {
+        left: [secRow('Profesión declarada', cap(c.prof)), secRow('Nivel de formación', nivel)],
+        right: [secRow('Institución educativa', cap(c.inst)), secRow('Posgrado declarado', '')]
+      };
+    }
+    return {
+      left: [secRow('Estudios primarios', yn(c.prim)), secRow('Estudios secundarios', yn(c.secu))],
+      right: [secRow('Educación superior', 'No declara'), secRow('Posgrado declarado', 'No declara')]
+    };
   }
 
   function fichaHTML(c) {
@@ -347,87 +357,74 @@
 
     const inmV = c.ninm ? money(c.vinm) : '';
     const mueV = c.nmue ? money(c.vmue) : '';
+    const form = formacionRows(c);
 
     const pdfBtn = `<span class="fx__pdf is-disabled" title="No disponible en esta versión">
-        <svg width="20" height="24" viewBox="0 0 20 24" fill="none" stroke="#555" stroke-width="1.5">
-          <path d="M3 1h9l5 5v17H3z"/><path d="M12 1v5h5"/><path d="M10 11v7M7 15l3 3 3-3"/></svg>
-        <span>Descargar hoja<br>de vida original<br>en PDF</span></span>`;
+        <img src="assets/img/pdf-icon.png" alt="" width="30" height="32">
+        <span>Descargar hoja de<br>vida original en PDF</span></span>`;
 
     return `
       <button class="ficha__close" data-close aria-label="Cerrar">&times;</button>
       <div class="fx">
 
         <div class="fx__top">
+          <div class="fx__photowrap">
+            <div class="fx__photo"><span class="ini">${initials(c.nom).toUpperCase()}</span><img src="${FOTOS}${c.dni}.jpg" alt="${cap(c.nom)}" loading="lazy" onerror="this.remove()"></div>
+            <img class="fx__plogo" src="${LOGOS}${slugOrg(c.org)}.png" alt="" onerror="this.remove()">
+          </div>
           <div class="fx__idcol">
             <div class="fx__name">${cap(c.nom)}</div>
             <div class="fx__age">${edad}</div>
             <div class="fx__party">${cap(c.org)}</div>
           </div>
-          <div class="fx__photowrap">
-            <div class="fx__photo"><span class="ini">${initials(c.nom).toUpperCase()}</span><img src="${FOTOS}${c.dni}.jpg" alt="${cap(c.nom)}" loading="lazy" onerror="this.remove()"></div>
-            <img class="fx__plogo" src="${LOGOS}${slugOrg(c.org)}.png" alt="" onerror="this.remove()">
-          </div>
-          <div class="fx__rcol">
-            <div class="fx__postula"><span class="lbl">Postula:</span><br>${p.cargo}<br>${p.lugar}.</div>
-            <div class="fx__pdfwrap">
-              <div class="lbl">Transparencia:</div>
-              ${pdfBtn}
-            </div>
-          </div>
         </div>
 
-        ${formacionHTML(c)}
-
-        <div class="fx__bar">Experiencia laboral</div>
-        <div class="fx__grid2">
-          ${cell('Ocupación', cap(c.ocup))}
-          ${cell('Centro de trabajo', cap(c.ct))}
-        </div>
-
-        <div class="fx__mid">
-          <div class="fx__midcol">
-            <div class="fx__bar">Trayectoria política</div>
-            <div class="fx__grid2" style="grid-template-columns:1fr">
-              ${cell('Tiene cargos de elección popular', yn(c.tce))}
-              ${cell('Cargos de elección popular', c.tce ? cap(c.cep) : '', 'No declara')}
-              ${cell('Tiene cargos partidarios', yn(c.tcp))}
-              ${cell('Cargo partidario', c.tcp ? cap(c.cp) : '', 'No declara')}
-            </div>
+        <div class="fx__deck">
+          <div class="fx__deckcol">
+            <div class="fx__decklbl">Postula:</div>
+            <div class="fx__postula"><b>${p.cargo}</b><br>${p.lugar}.</div>
           </div>
-          <div class="fx__midcol">
-            <div class="fx__bar">Patrimonio</div>
-            <div class="fx__grid2" style="grid-template-columns:1fr">
-              ${cell('Bienes inmuebles', yn(!!c.ninm))}
-              ${cell('Valor total declarado de inmuebles', inmV, '—')}
-              ${cell('Bienes muebles', yn(!!c.nmue))}
-              ${cell('Valor total declarado de bienes muebles', mueV, '—')}
-              ${cell('Tiene acciones o participaciones', yn(c.tacc))}
-            </div>
+          <div class="fx__deckcol">
+            <div class="fx__decklbl">Transparencia:</div>
+            ${pdfBtn}
           </div>
         </div>
 
-        <div class="fx__income">
-          <div class="fx__bar">Ingresos</div>
-          <div class="fx__grid2">
-            <div class="fx__cell">
-              <div class="lbl">Ingresos declarados (último año)</div>
-              <div class="big">${c.ting ? (money(c.ing) || 'No declara') : 'No declara'}</div>
-            </div>
-            <div class="fx__cell">
-              <div class="lbl">Año de la declaración</div>
-              <div class="big">${val(c.anio, '—')}</div>
-            </div>
-          </div>
-        </div>
+        ${secBlock('Formación académica', form.left, form.right)}
 
-        <div class="fx__bar">Sentencias</div>
-        <div class="fx__grid2">
-          ${cell('Tiene sentencias penales declaradas', yn(c.tsp))}
-          ${cell('Tiene sentencias civiles declaradas', yn(c.tsc))}
-        </div>
-        <div class="fx__sentcols">
-          <div>${sentBlock('Sentencias penales declaradas', c.tsp, c.sp)}</div>
-          <div>${sentBlock('Sentencias civiles declaradas', c.tsc, c.sc)}</div>
+        ${secBlock('Experiencia laboral',
+          [secRow('Ocupación', cap(c.ocup))],
+          [secRow('Centro de trabajo', cap(c.ct))])}
+
+        ${secBlock('Trayectoria política',
+          [secRow('Tiene cargos de elección popular', yn(c.tce)),
+           secRow('Cargos de elección popular', c.tce ? cap(c.cep) : '')],
+          [secRow('Tiene cargos partidarios', yn(c.tcp)),
+           secRow('Cargo partidario', c.tcp ? cap(c.cp) : '')])}
+
+        ${secBlock('Patrimonio',
+          [secRow('Bienes inmuebles', c.ninm != null ? String(c.ninm) : ''),
+           secRow('Valor total declarado de inmuebles', inmV, { dash: '—' }),
+           secRow('Acciones o participaciones', yn(c.tacc))],
+          [secRow('Bienes muebles', c.nmue != null ? String(c.nmue) : ''),
+           secRow('Valor total declarado de bienes muebles', mueV, { dash: '—' })])}
+
+        ${secBlock('Ingresos',
+          [secRow('Tiene declaración de ingresos',
+            c.ting ? (money(c.ing) || 'No declara') : 'No declara', { big: true })],
+          [secRow('Año de la declaración de ingresos declarados',
+            val(c.anio, '—'), { big: true })])}
+
+        <div class="fx__sen">
+          <div class="fx__sen-head">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#26304f" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 3v18M7 21h10M12 6l-7 2 3 6a3.5 3.5 0 01-6 0l3-6M12 6l7 2-3 6a3.5 3.5 0 006 0l-3-6"/></svg>
+            <span>Sentencias</span>
+          </div>
+          <div class="fx__sen-cols">
+            ${sentCard('Penales', 'Sentencias penales declaradas:', c.tsp, c.nsp, c.sp)}
+            ${sentCard('Civiles', 'Sentencias civiles declaradas:', c.tsc, c.nsc, c.sc)}
+          </div>
         </div>
 
         <div class="fx__fuente">
@@ -442,6 +439,69 @@
     el.ficha.innerHTML = fichaHTML(c);
     el.modal.hidden = false;
     document.body.style.overflow = 'hidden';
+    applyPartyRing(c);
+  }
+
+  // Cache de color referencial por partido (slug -> [r,g,b])
+  const ringColorCache = {};
+
+  // Toma el color dominante del logo del partido y lo aplica como trazo en
+  // degradé al rededor de la foto del candidato.
+  function applyPartyRing(c) {
+    const photo = el.ficha.querySelector('.fx__photo');
+    if (!photo) return;
+    const slug = slugOrg(c.org);
+    if (!slug) return;
+
+    const paint = rgb => {
+      // Degradé de blanco hacia el color del partido.
+      photo.style.setProperty('--ring1', '#ffffff');
+      photo.style.setProperty('--ring2', `rgb(${rgb[0]},${rgb[1]},${rgb[2]})`);
+    };
+
+    if (ringColorCache[slug]) { paint(ringColorCache[slug]); return; }
+
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = () => {
+      try {
+        const rgb = dominantColor(img);
+        if (rgb) { ringColorCache[slug] = rgb; paint(rgb); }
+      } catch (e) { /* si el canvas se contamina, se mantiene el color por defecto */ }
+    };
+    img.src = `${LOGOS}${slug}.png`;
+  }
+
+  // Extrae el color más representativo de una imagen (ignora blancos,
+  // negros y transparencias) usando cubetas de color.
+  function dominantColor(img) {
+    const S = 48;
+    const cv = document.createElement('canvas');
+    cv.width = S; cv.height = S;
+    const ctx = cv.getContext('2d');
+    ctx.drawImage(img, 0, 0, S, S);
+    const data = ctx.getImageData(0, 0, S, S).data;
+    const buckets = {};
+    for (let i = 0; i < data.length; i += 4) {
+      const r = data[i], g = data[i + 1], b = data[i + 2], a = data[i + 3];
+      if (a < 125) continue;                       // transparente
+      const max = Math.max(r, g, b), min = Math.min(r, g, b);
+      if (max > 235 && min > 210) continue;        // casi blanco
+      if (max < 45) continue;                      // casi negro
+      if (max - min < 18 && max > 170) continue;   // gris claro sin croma
+      const key = `${r >> 4},${g >> 4},${b >> 4}`; // cubeta de 16 niveles
+      const bkt = buckets[key] || (buckets[key] = { n: 0, r: 0, g: 0, b: 0, sat: 0 });
+      bkt.n++; bkt.r += r; bkt.g += g; bkt.b += b;
+      bkt.sat += (max - min);
+    }
+    let best = null, bestScore = -1;
+    for (const k in buckets) {
+      const bk = buckets[k];
+      const score = bk.n * (1 + (bk.sat / bk.n) / 64); // frecuencia ponderada por saturación
+      if (score > bestScore) { bestScore = score; best = bk; }
+    }
+    if (!best) return null;
+    return [Math.round(best.r / best.n), Math.round(best.g / best.n), Math.round(best.b / best.n)];
   }
   function openFicha(dni) {
     showFicha(current.find(x => String(x.dni) === String(dni)));

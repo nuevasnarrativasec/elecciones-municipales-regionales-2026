@@ -39,11 +39,11 @@ header#header{
 .hero__badge{
   display: block;
   margin: 5px auto;
-  max-width: 220px;
+  max-width: 200px;
 }
 .hero__badge-top{font-family:var(--serif);font-weight:800;font-size:20px;letter-spacing:.5px}
 .hero__badge-bottom{font-size:10px;font-weight:700;letter-spacing:.5px}
-.hero__title{font-family:var(--serif);font-weight:800;font-size:44px;margin: 0 auto 10px;}
+.hero__title{font-family:"ivypresto-headline",var(--serif);font-weight:700;font-size:44px;margin: 0 auto 10px;}
 .hero__sub{color:var(--gray);    font-size: 15px;
     max-width: 450px;
     margin: 5px auto;}
@@ -109,51 +109,62 @@ header#header{
 .modal[hidden]{display:none}
 .modal__backdrop{position:fixed;inset:0;background:rgba(0,0,0,.5)}
 .modal__card{position:relative;background:#fff;border-radius:16px;max-width:650px;width:100%;padding:0;box-shadow:0 20px 60px rgba(0,0,0,.3)}
-.ficha__close{position:absolute;top:14px;right:14px;width:32px;height:32px;border-radius:50%;border:1px solid var(--line);background:#fff;font-size:18px;cursor:pointer;line-height:1;color:#555;z-index:2}
-.ficha__close:hover{background:#f2f2f2}
+.ficha__close{position:absolute;top:16px;right:16px;width:36px;height:36px;border-radius:50%;border:none;background:#111;font-size:20px;cursor:pointer;line-height:1;color:#fff;z-index:2;display:flex;align-items:center;justify-content:center}
+.ficha__close:hover{background:#333}
 
 /* ---- Ficha (diseño hoja de vida) ---- */
-.fx{--navy:#1f356e;padding:30px 34px 24px;font-size:14px;color:#1a1a1a}
-.fx__top{display:grid;grid-template-columns:1fr 180px 200px;gap:10px;align-items:start;margin-bottom:8px}
-.fx__idcol{padding-top:6px}
-.fx__name{color:var(--navy);font-weight:800;font-size:21px;line-height:1.12;letter-spacing:.2px;margin-bottom:8px}
-.fx__age{color:#555;font-size:13.5px;line-height:1.4}
-.fx__party{color:#555;font-size:13.5px;line-height:1.4}
-.fx__photowrap{position:relative;width:116px;height:116px;justify-self:center;flex-shrink:0}
-.fx__plogo{position:absolute;right:-4px;bottom:0;width:40px;height:40px;border-radius:50%;background:#fff;object-fit:contain;padding:3px;box-shadow:0 1px 4px rgba(0,0,0,.25);z-index:2}
-.fx__photo{position:absolute;inset:0;border-radius:50%;border:5px solid var(--navy);background:#dfe4ee;overflow:hidden}
+.fx{--navy:#1f356e;--pblue:#33509d;--cream:#fdf3ec;--creamline:#efe0d3;--gray:#e9e9e9;padding:30px 34px 24px;font-size:14px;color:#1a1a1a}
+
+/* Cabecera: foto a la izquierda + identidad */
+.fx__top{display:flex;align-items:center;gap:22px;margin-bottom:18px}
+.fx__photowrap{position:relative;width:116px;height:116px;flex-shrink:0}
+.fx__plogo{position:absolute;right:-4px;bottom:0;width:42px;height:42px;border-radius:50%;background:#fff;object-fit:contain;padding:3px;box-shadow:0 1px 4px rgba(0,0,0,.25);z-index:2}
+.fx__photo{position:absolute;inset:0;border-radius:50%;border:9px solid transparent;background:linear-gradient(#dfe4ee,#dfe4ee) padding-box,linear-gradient(360deg,var(--ring1,#fff),var(--ring2,var(--navy))) border-box;overflow:hidden}
 .fx__photo .ini{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-weight:800;color:var(--navy);font-size:30px}
 .fx__photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top center}
-.fx__rcol{display:flex;flex-direction:column;gap:12px}
-.fx__postula{background:var(--navy);color:#fff;border-radius:6px;padding:11px 14px;font-size:14px;line-height:1.35}
-.fx__postula .lbl{font-weight:700}
-.fx__pdfwrap .lbl{color:#8a8a8a;font-size:12.5px;margin-bottom:5px}
-.fx__pdf{display:flex;align-items:center;gap:9px;border:1px solid #cfcfcf;border-radius:6px;padding:8px 11px;font-size:11px;color:#333;text-decoration:none;line-height:1.25}
+.fx__idcol{min-width:0}
+.fx__name{color:var(--navy);font-weight:800;font-size:30px;line-height:1.08;letter-spacing:.2px;margin-bottom:6px}
+.fx__age{color:#666;font-size:14px;line-height:1.4}
+.fx__party{color:#666;font-size:14px;line-height:1.4}
+
+/* Fila Postula / Transparencia */
+.fx__deck{display:grid;grid-template-columns:1fr 1fr;gap:26px;align-items:start;border-top:1px solid #e6e6e6;padding-top:18px;margin-bottom:8px}
+.fx__decklbl{font-weight:700;font-size:13px;color:#1a1a1a;margin-bottom:7px}
+.fx__postula{background:var(--pblue);color:#fff;border-radius:8px;padding:12px 16px;font-size:14px;line-height:1.4}
+.fx__postula b{font-weight:800}
+.fx__pdf{display:inline-flex;align-items:center;gap:11px;border:1px solid #000;border-radius:8px;padding:10px 14px;font-size:12px;color:#333;text-decoration:none;line-height:1.3;background:#fff}
 .fx__pdf:hover{background:#f6f6f6}
-.fx__pdf.is-disabled{opacity:.55;cursor:not-allowed}
+.fx__pdf.is-disabled{opacity:.7;cursor:not-allowed}
+.fx__pdf-ic{flex:0 0 auto}
 
-.fx__bar{background:linear-gradient(90deg,#e0e0e0,rgba(224,224,224,0));border-radius:4px;padding:7px 14px;font-weight:700;font-size:15px;margin:22px 0 14px}
-.fx__grid2{display:grid;grid-template-columns:1fr 1fr;gap:15px 26px;padding:0 4px}
-.fx__cell .lbl{color:#9a9a9a;font-size:12.5px;margin-bottom:2px;line-height:1.3}
-.fx__cell .v{font-weight:700;font-size:14px;line-height:1.35}
-.fx__cell .v.dash{color:#111;font-weight:700}
+/* Bloque de sección: cabecera gris + cuerpo cream */
+.fx__sec{margin:16px 0}
+.fx__sechead{background:var(--gray);border-radius:8px;padding:10px 16px 15px;font-weight:800;font-size:14px;letter-spacing:.4px;text-transform:uppercase;color:#2b2b2b}
+.fx__secbody{background:var(--cream);border-radius:10px;margin-top:-12px;padding:16px 6px;display:grid;grid-template-columns:1fr 1fr}
+.fx__col{padding:2px 20px}
+.fx__col+.fx__col{border-left:1px solid var(--creamline)}
+.fx__row{display:flex;gap:10px;margin:0 0 14px}
+.fx__row:last-child{margin-bottom:0}
+.fx__dot{width:7px;height:7px;border-radius:50%;background:#2b2b2b;margin-top:5px;flex:0 0 auto}
+.fx__rowtxt{min-width:0}
+.fx__row .lbl{color:#4a4a4a;font-size:12.5px;line-height:1.3;margin-bottom:2px}
+.fx__row .v{font-weight:800;font-size:14.5px;line-height:1.25;color:#171717}
+.fx__row .v.dash{font-weight:700;color:#171717}
+.fx__row--big .v{font-size:22px;margin-top:2px}
 
-.fx__mid{display:grid;grid-template-columns:1fr 1fr;gap:0 26px;align-items:start}
-
-.fx__income{background:var(--navy);color:#fff;border-radius:12px;padding:6px 22px 22px;margin:26px 0 8px}
-.fx__income .fx__bar{background:none;border-bottom:1px solid rgba(255,255,255,.4);border-radius:0;padding:14px 0 10px;margin:0 0 16px;color:#fff}
-.fx__income .fx__grid2{padding:0}
-.fx__income .lbl{color:#c2ccdf}
-.fx__income .big{font-size:22px;font-weight:800;margin-top:3px}
-
-.fx__sentcols{display:grid;grid-template-columns:1fr 1fr;gap:0 26px;align-items:start}
-.fx__nosent{color:#111;font-weight:700;font-size:13.5px;margin:0 4px}
-.fx__subhead{font-weight:700;font-size:12.5px;color:#8a8a8a;letter-spacing:.2px;margin:18px 4px 8px}
-.fx__sent{list-style:none;margin:0 4px;padding:0}
-.fx__sent li{border-left:3px solid var(--navy);background:#f5f6f9;border-radius:0 6px 6px 0;padding:10px 13px;margin-bottom:9px}
-.fx__sent .st{font-weight:700;font-size:13.5px;color:#1a1a1a;margin-bottom:5px;line-height:1.35}
-.fx__sent .sf{font-size:12.5px;color:#444;line-height:1.4;margin:2px 0}
-.fx__sent .sf b{color:#1f356e;font-weight:700}
+/* Bloque Sentencias (lavanda) */
+.fx__sen{background: #949FC1;
+background: linear-gradient(180deg, rgba(148, 159, 193, 1) 0%, rgba(235, 235, 235, 1) 50%, rgba(255, 255, 255, 1) 100%);border-radius:16px;padding:18px 18px 20px;margin:20px 0 8px}
+.fx__sen-head{display:flex;align-items:center;gap:9px;font-weight:800;font-size:15px;letter-spacing:.4px;text-transform:uppercase;color:#26304f;margin-bottom:14px}
+.fx__sen-cols{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.fx__sc-card{background:#e9edfb;border-radius:12px;padding:15px 16px}
+.fx__sc-kind{font-weight:800;font-size:12.5px;letter-spacing:.4px;text-transform:uppercase;color:#3a4666;margin-bottom:10px}
+.fx__sc-count{font-weight:800;font-size:13.5px;color:#1a2140;line-height:1.35;margin-bottom:10px}
+.fx__sc-count b{display:block;font-size:16px}
+.fx__sc-f{font-size:12.5px;color:#333;line-height:1.45;margin:7px 0}
+.fx__sc-f b{color:#26304f;font-weight:700}
+.fx__sc-sep{height:1px;background:rgba(38,48,79,.14);margin:12px 0}
+.fx__sc-none{font-size:12.5px;color:#4a557a}
 
 .fx__fuente{margin-top:24px;padding-top:16px;border-top:1px solid var(--line);font-size:13px;color:#555;line-height:1.45}
 .fx__fuente b{color:#222}
@@ -162,11 +173,11 @@ header#header{
   .filters{grid-template-columns:1fr 1fr;gap:20px}
   .candlist{grid-template-columns:1fr}
   .hero__title{font-size:28px}
-  .fx__top{grid-template-columns:1fr;justify-items:center;text-align:center;gap:14px}
-  .fx__rcol{width:100%;max-width:260px}
-  .fx__mid{grid-template-columns:1fr}
-  .fx__sentcols{grid-template-columns:1fr}
-  .fx__grid2{grid-template-columns:1fr}
+  .fx__top{flex-direction:column;text-align:center;gap:14px}
+  .fx__deck{grid-template-columns:1fr;gap:16px}
+  .fx__secbody{grid-template-columns:1fr;gap:0}
+  .fx__col+.fx__col{border-left:none;border-top:1px solid var(--creamline);margin-top:12px;padding-top:14px}
+  .fx__sen-cols{grid-template-columns:1fr}
   .fx{padding:24px 20px}
 }
 
