@@ -128,7 +128,7 @@ header#header{
 .fx__party{color:#666;font-size:14px;line-height:1.4}
 
 /* Fila Postula / Transparencia */
-.fx__deck{display:grid;grid-template-columns:1fr 1fr;gap:26px;align-items:start;border-top:1px solid #e6e6e6;padding-top:18px;margin-bottom:8px}
+.fx__deck{display:grid;grid-template-columns:1fr 1fr;gap:205px;align-items:start;border-top:1px solid #e6e6e6;padding-top:18px;margin-bottom:8px}
 .fx__decklbl{font-weight:700;font-size:13px;color:#1a1a1a;margin-bottom:7px}
 .fx__postula{background:var(--pblue);color:#fff;border-radius:8px;padding:12px 16px;font-size:14px;line-height:1.4}
 .fx__postula b{font-weight:800}
@@ -174,7 +174,7 @@ background: linear-gradient(180deg, rgba(148, 159, 193, 1) 0%, rgba(235, 235, 23
   .candlist{grid-template-columns:1fr}
   .hero__title{font-size:28px}
   .fx__top{flex-direction:column;text-align:center;gap:14px}
-  .fx__deck{grid-template-columns:1fr;gap:16px}
+  .fx__deck{gap:16px}
   .fx__secbody{grid-template-columns:1fr;gap:0}
   .fx__col+.fx__col{border-left:none;border-top:1px solid var(--creamline);margin-top:12px;padding-top:14px}
   .fx__sen-cols{grid-template-columns:1fr}
@@ -184,6 +184,9 @@ background: linear-gradient(180deg, rgba(148, 159, 193, 1) 0%, rgba(235, 235, 23
 /* En móvil, los filtros van a una sola columna */
 @media(max-width:560px){
   .filters{grid-template-columns:1fr}
+  .fcol{
+        margin-bottom: 30px;
+  }
 }
 
 /* Separador entre la sección de candidatos y la de regidores */
