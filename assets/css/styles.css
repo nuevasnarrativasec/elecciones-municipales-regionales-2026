@@ -49,7 +49,7 @@ header#header{
     margin: 5px auto;}
 
 /* Filters */
-.filters{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:26px;padding:34px 0 12px;border-bottom:1px solid var(--line)}
+.filters{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:26px;padding:34px 0 12px;border-bottom:3px solid var(--line)}
 .fcol{position:relative;border: 1px solid #b1b0b0;border-radius:20px;background:#fff;padding:34px 18px 20px}
 .fcol__head{display:none}
 .step{display:none}
@@ -201,7 +201,10 @@ background: linear-gradient(180deg, rgba(148, 159, 193, 1) 0%, rgba(235, 235, 23
   #candList li{
         width: 84%;
   }
+  .results__title--cv{
+        font-size: 18px;
+  }
 }
 
 /* Separador entre la sección de candidatos y la de regidores */
-.section-sep{max-width:1180px;margin:56px auto;border-top:1px solid #e6e6e6}
+.section-sep{max-width:1180px;margin:56px auto;border-top:3px solid #e6e6e6}
