@@ -136,7 +136,7 @@ header#header{
 .fx__party{color:#666;font-size:14px;line-height:1.4}
 
 /* Fila Postula / Transparencia */
-.fx__deck{display:grid;grid-template-columns:1fr 1fr;gap:160px;align-items:start;border-top:1px solid #e6e6e6;padding-top:18px;margin-bottom:8px}
+.fx__deck{display:grid;grid-template-columns:1fr 1fr;gap:135px;align-items:start;border-top:1px solid #e6e6e6;padding-top:18px;margin-bottom:8px}
 .fx__decklbl{font-weight:700;font-size:13px;color:#1a1a1a;margin-bottom:2px}
 .postula{
   padding-left: 15px;
