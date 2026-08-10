@@ -906,7 +906,7 @@
       el.loadWrap.hidden = true;
       el.count.textContent = 'Usa los filtros para ver los candidatos.';
       REG_INDEX = await loadJSON('assets/data/reg_index.json');
-      fillSelect(rg.region, Object.keys(REG_INDEX.deps).sort(), 'Selecciona…');
+      fillSelect(rg.region, Object.keys(REG_INDEX.deps).sort(), 'Región');
       rg.count.textContent = 'Elige una región para empezar.';
     } catch (e) {
       el.count.textContent = 'No se pudieron cargar los datos. Sirve el sitio por HTTP (localhost).';
