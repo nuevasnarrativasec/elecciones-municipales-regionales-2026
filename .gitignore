@@ -7,3 +7,18 @@ assets/fotos/
 
 # Dependencias del Worker (si instalas wrangler localmente)
 node_modules/
+
+# --- Archivos de trabajo / fuentes que NO se sirven en la landing ---
+# Hojas de vida (PDF) de candidatos usadas solo para completar la data.
+CANDIDATOS-LIMA-FALTAN-HDV/
+
+# Planes de gobierno en PDF (~42 MB) descargados del JNE, no forman parte del sitio.
+planes_gobierno_pdf/
+
+# Spreadsheets fuente / generados (la landing consume assets/data/*.json, no .xlsx).
+*.xlsx
+
+# Respaldos y temporales
+*.BACKUP.json
+*.bak
+*.tmp
