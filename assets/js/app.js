@@ -896,6 +896,58 @@
   });
   refreshActiveCols();
 
+/* ============================================
+   METODOLOGÍA
+   ============================================ */
+
+/**
+ * Inicializar sección de metodología (expandible)
+ */
+function initMetodologia() {
+    const botonLeerMas = document.querySelector('.mas-metodologia');
+    const contenidoOculto = document.getElementById('detalle-oculto');
+
+    if (!botonLeerMas || !contenidoOculto) return;
+
+    botonLeerMas.addEventListener('click', function() {
+        if (contenidoOculto.style.display === "none") {
+            contenidoOculto.style.display = "block";
+            botonLeerMas.innerText = "Ocultar detalle del método";
+        } else {
+            contenidoOculto.style.display = "none";
+            botonLeerMas.innerText = "Conoce el detalle del método de análisis aquí";
+        }
+    }, { passive: true });
+
+    // Link desde tarjetas del comparador
+    document.addEventListener('click', function(e) {
+        if (e.target.closest('.discourse-tone.ancla')) {
+            e.preventDefault();
+            
+            if (contenidoOculto.style.display === "none") {
+                contenidoOculto.style.display = "block";
+                botonLeerMas.innerText = "Ocultar detalle del método";
+            }
+            
+            const boxMetodologia = document.querySelector('.box-metodologia');
+            if (boxMetodologia) {
+                boxMetodologia.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        }
+    });
+}
+
+/**
+ * DOM Content Loaded - Inicializar componentes UI
+ */
+document.addEventListener('DOMContentLoaded', function() {
+    initMetodologia();
+});
+
+
   // ---- Init ----
   (async function init() {
     try {

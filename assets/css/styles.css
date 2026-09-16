@@ -219,3 +219,82 @@ background: linear-gradient(180deg, rgba(148, 159, 193, 1) 0%, rgba(235, 235, 23
 
 /* Separador entre la sección de candidatos y la de regidores */
 .section-sep{max-width:1180px;margin:56px auto;border-top:3px solid #e6e6e6}
+
+
+
+/* ============================================
+   METODOLOGIA
+   ============================================ */
+.box-metodologia {
+    border: 1px solid #707070;
+    box-sizing: border-box;
+    margin: 0 auto;
+    max-width: 600px;
+    padding: 30px 40px;
+}
+
+.box-metodologia h6 {
+    font: 1rem/1.5 "Roboto", sans-serif;
+    font-weight: 800;
+    margin: 0 auto;
+    text-transform: uppercase;
+}
+
+.box-metodologia p {
+    font: 1rem/1.5 "Roboto", sans-serif;
+}
+
+/* ============================================
+   FOOTER
+   ============================================ */
+.footer-section {
+    background: #1a1a1a;
+    color: white;
+    padding: 30px 40px;
+    margin-top: 80px;
+    text-align: center;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.logo-comercio {
+    display: block;
+    margin: 0 auto 30px;
+    max-width: 130px;
+}
+
+span.separador-logo {
+    background-color: white;
+    display: block;
+    height: 1px;
+    margin: 0 auto var(--spacing-md);
+    max-width: 600px;
+}
+
+.footer-content ul {
+    display: inline-block;
+    list-style-type: none;
+    margin: 0 20px;
+    padding: 0;
+    text-align: left;
+    vertical-align: top;
+}
+
+.footer-content ul li {
+    margin-bottom: 15px;
+}
+
+.footer-content ul li h4 {
+    font: 0.9rem/1.3 'Roboto', sans-serif;
+    font-weight: 800;
+    margin-bottom: 0;
+}
+
+.footer-content ul li p {
+    font: 0.9rem/1.6 'Roboto', sans-serif;
+    font-weight: 300;
+    margin: 0;
+}
