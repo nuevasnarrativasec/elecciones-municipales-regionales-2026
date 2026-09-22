@@ -8,6 +8,10 @@
     'ALCALDE DISTRITAL': 'alcalde_dist'
   };
   const PAGE = 40;
+  // URL absoluta del sitio publicado (debe terminar en '/'). Se usa para todos los
+  // assets (JSON, logos, íconos) porque el HTML se inserta en ARC, donde las rutas
+  // relativas no resuelven. Para desarrollo local puedes usar: const BASE = '';
+  const BASE = 'https://nuevasnarrativasec.github.io/elecciones-municipales-regionales-2026/';
   // Base de las fotos de candidatos/regidores (debe terminar en '/').
   //  - Desarrollo local:  'assets/fotos/'
   //  - Producción: Backblaze B2 servido por un Cloudflare Worker (gratis, sin dominio).
@@ -18,7 +22,7 @@
   // Hojas de vida en PDF: mismo bucket B2 y mismo Worker que las fotos, bajo
   // el prefijo "hdv/". Ver deploy/README-cdn-fotos-b2.md y deploy/subir-hdv-b2.sh.
   const HDV = 'https://elecciones-fotos.nuevasnarrativas-ec.workers.dev/hdv/';
-  const LOGOS = 'assets/logos/';
+  const LOGOS = `${BASE}assets/logos/`;
   // slug estable del partido para el nombre de archivo del logo (ej. "Avanza País" -> "avanza_pais")
   const slugOrg = s => (s || '').toString().toLowerCase()
     .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
@@ -151,7 +155,7 @@
   async function loadAllCargos() {
     const slugs = Object.values(SLUG);
     for (const s of slugs) {
-      if (!cache[s]) cache[s] = await loadJSON(`https://nuevasnarrativasec.github.io/elecciones-municipales-regionales-2026/assets/data/cand_${s}.json`);
+      if (!cache[s]) cache[s] = await loadJSON(`${BASE}assets/data/cand_${s}.json`);
     }
     return slugs.flatMap(s => cache[s]);
   }
@@ -199,7 +203,7 @@
     const slug = SLUG[cargo];
     el.count.textContent = 'Cargando…';
     if (!cache[slug]) {
-      try { cache[slug] = await loadJSON(`assets/data/cand_${slug}.json`); }
+      try { cache[slug] = await loadJSON(`${BASE}assets/data/cand_${slug}.json`); }
       catch (e) { el.count.textContent = 'Error al cargar los datos.'; return; }
     }
     current = cache[slug];
@@ -383,10 +387,10 @@
 
     const pdfBtn = c.hdv
       ? `<a class="fx__pdf" href="${HDV}${c.dni}.pdf" target="_blank" rel="noopener">
-          <img src="assets/img/pdf-icon.png" alt="" width="30" height="32">
+          <img src="${BASE}assets/img/pdf-icon.png" alt="" width="30" height="32">
           <span>Descargar hoja de vida original en PDF</span></a>`
       : `<span class="fx__pdf is-disabled" title="No disponible">
-          <img src="assets/img/pdf-icon.png" alt="" width="30" height="32">
+          <img src="${BASE}assets/img/pdf-icon.png" alt="" width="30" height="32">
           <span>Hoja de vida no disponible</span></span>`;
 
     return `
@@ -666,7 +670,7 @@
   // Índice ligero [nombre, índiceDepto] para buscar regidores por nombre sin región.
   let REG_NAMES = null;
   async function loadRegNames() {
-    if (!REG_NAMES) REG_NAMES = await loadJSON('https://nuevasnarrativasec.github.io/elecciones-municipales-regionales-2026/assets/data/reg_names.json');
+    if (!REG_NAMES) REG_NAMES = await loadJSON(`${BASE}assets/data/reg_names.json`);
     return REG_NAMES;
   }
 
@@ -692,7 +696,7 @@
     rg.count.textContent = 'Buscando…';
     const slugs = [...depSet].map(i => idx.deps[i]);
     try {
-      for (const s of slugs) if (!regCache[s]) regCache[s] = await loadJSON(`assets/data/reg/${s}.json`);
+      for (const s of slugs) if (!regCache[s]) regCache[s] = await loadJSON(`${BASE}assets/data/reg/${s}.json`);
     } catch (e) { rg.count.textContent = 'Error al cargar los datos.'; return; }
 
     regData = slugs.flatMap(s => regCache[s]);
@@ -726,8 +730,8 @@
     const depSlug = REG_INDEX.deps[rg.region.value].slug;
     const headSlug = REG_HEAD[lvl];
     try {
-      if (!regCache[depSlug]) regCache[depSlug] = await loadJSON(`assets/data/reg/${depSlug}.json`);
-      if (!cache[headSlug]) cache[headSlug] = await loadJSON(`assets/data/cand_${headSlug}.json`);
+      if (!regCache[depSlug]) regCache[depSlug] = await loadJSON(`${BASE}assets/data/reg/${depSlug}.json`);
+      if (!cache[headSlug]) cache[headSlug] = await loadJSON(`${BASE}assets/data/cand_${headSlug}.json`);
     } catch (e) {
       rg.count.textContent = 'Error al cargar los datos.'; return;
     }
@@ -981,13 +985,13 @@ document.addEventListener('DOMContentLoaded', function() {
   // ---- Init ----
   (async function init() {
     try {
-      INDEX = await loadJSON('https://nuevasnarrativasec.github.io/elecciones-municipales-regionales-2026/assets/data/index.json');
+      INDEX = await loadJSON(`${BASE}assets/data/index.json`);
       refreshForCargo();
       // El listado arranca vacío: se muestra al interactuar con los filtros.
       el.list.innerHTML = '';
       el.loadWrap.hidden = true;
       el.count.textContent = 'Usa los filtros para ver los candidatos.';
-      REG_INDEX = await loadJSON('https://nuevasnarrativasec.github.io/elecciones-municipales-regionales-2026/assets/data/reg_index.json');
+      REG_INDEX = await loadJSON(`${BASE}assets/data/reg_index.json`);
       fillSelect(rg.region, Object.keys(REG_INDEX.deps).sort(), 'Región');
       rg.count.textContent = 'Elige una región para empezar.';
     } catch (e) {
