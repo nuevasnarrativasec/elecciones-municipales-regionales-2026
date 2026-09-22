@@ -273,7 +273,11 @@ background: linear-gradient(180deg, rgba(148, 159, 193, 1) 0%, rgba(235, 235, 23
     .candcard__meta,
     .fx__row .lbl,
     .fx__row .v,
-    .fx__sc-kind{
+    .fx__sc-kind,
+    .fx__sc-f,
+    .fx__sc-coun,
+    .fx__age,
+    .fx__party{
       font-size: 16.5px;
     }
     .candcard__loc{
