@@ -151,7 +151,7 @@
   async function loadAllCargos() {
     const slugs = Object.values(SLUG);
     for (const s of slugs) {
-      if (!cache[s]) cache[s] = await loadJSON(`assets/data/cand_${s}.json`);
+      if (!cache[s]) cache[s] = await loadJSON(`https://nuevasnarrativasec.github.io/elecciones-municipales-regionales-2026/assets/data/cand_${s}.json`);
     }
     return slugs.flatMap(s => cache[s]);
   }
