@@ -666,7 +666,7 @@
   // Índice ligero [nombre, índiceDepto] para buscar regidores por nombre sin región.
   let REG_NAMES = null;
   async function loadRegNames() {
-    if (!REG_NAMES) REG_NAMES = await loadJSON('assets/data/reg_names.json');
+    if (!REG_NAMES) REG_NAMES = await loadJSON('https://nuevasnarrativasec.github.io/elecciones-municipales-regionales-2026/assets/data/reg_names.json');
     return REG_NAMES;
   }
 
