@@ -156,9 +156,23 @@
     return slugs.flatMap(s => cache[s]);
   }
 
+  // ---- Título de resultados: solo visible cuando hay resultados ----
+  const CAND_TITLE = {
+    'GOBERNADOR REGIONAL': 'Candidatos a gobernador regional encontrados',
+    'ALCALDE PROVINCIAL': 'Candidatos a alcalde provincial encontrados',
+    'ALCALDE DISTRITAL': 'Candidatos a alcalde distrital encontrados'
+  };
+  function setResultsTitle(id, text) {
+    const h = document.getElementById(id);
+    if (!h) return;
+    h.textContent = text || '';
+    h.style.display = text ? '' : 'none';
+  }
+
   // ---- Aplicar filtros ----
   async function applyFilters() {
     const cargo = getCargo();
+    setResultsTitle('candTitle', null);
     // Sin cargo seleccionado: permitir búsqueda directa por nombre en todos los cargos.
     if (!cargo) {
       const q = norm(el.name.value.trim());
@@ -176,6 +190,10 @@
       el.list.innerHTML = '';
       renderMore();
       el.count.textContent = `${filtered.length.toLocaleString('es-PE')} candidato${filtered.length === 1 ? '' : 's'}`;
+      if (filtered.length) {
+        const cargos = new Set(filtered.map(c => c.cargo));
+        setResultsTitle('candTitle', cargos.size === 1 ? CAND_TITLE[[...cargos][0]] : 'Candidatos encontrados');
+      }
       return;
     }
     const slug = SLUG[cargo];
@@ -206,6 +224,7 @@
     el.list.innerHTML = '';
     renderMore();
     el.count.textContent = `${filtered.length.toLocaleString('es-PE')} candidato${filtered.length === 1 ? '' : 's'} · ${cap(cargo)}`;
+    if (filtered.length) setResultsTitle('candTitle', CAND_TITLE[cargo]);
   }
 
   function renderMore() {
@@ -654,6 +673,7 @@
   // Búsqueda directa por nombre en todos los departamentos: primero se ubica en
   // el índice qué departamentos tienen coincidencias y solo esos se descargan.
   async function regSearchByName(q) {
+    setResultsTitle('rgTitle', null);
     const idx = await loadRegNames();
     const depSet = new Set();
     for (const [nom, di] of idx.r) if (norm(nom).includes(q)) depSet.add(di);
@@ -680,10 +700,12 @@
     regShown = 0; rg.list.innerHTML = '';
     regRenderMore();
     rg.count.textContent = `${regFiltered.length.toLocaleString('es-PE')} regidor${regFiltered.length === 1 ? '' : 'es'}`;
+    if (regFiltered.length) setResultsTitle('rgTitle', 'Candidatos a regidores encontrados');
   }
 
   async function regApply() {
     const lvl = regLevel();
+    setResultsTitle('rgTitle', null);
     rg.wrapProv.style.display = '';
     rg.wrapDist.style.display = '';
 
@@ -732,6 +754,7 @@
     regRenderMore();
     const noun = REG_NOUN[lvl][regFiltered.length === 1 ? 0 : 1];
     rg.count.textContent = `${regFiltered.length.toLocaleString('es-PE')} ${noun}`;
+    if (regFiltered.length) setResultsTitle('rgTitle', 'Candidatos a regidores encontrados');
   }
 
   function regRenderMore() {
