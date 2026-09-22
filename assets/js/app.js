@@ -987,7 +987,7 @@ document.addEventListener('DOMContentLoaded', function() {
       el.list.innerHTML = '';
       el.loadWrap.hidden = true;
       el.count.textContent = 'Usa los filtros para ver los candidatos.';
-      REG_INDEX = await loadJSON('assets/data/reg_index.json');
+      REG_INDEX = await loadJSON('https://nuevasnarrativasec.github.io/elecciones-municipales-regionales-2026/assets/data/reg_index.json');
       fillSelect(rg.region, Object.keys(REG_INDEX.deps).sort(), 'Región');
       rg.count.textContent = 'Elige una región para empezar.';
     } catch (e) {
