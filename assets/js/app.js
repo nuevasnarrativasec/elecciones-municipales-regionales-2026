@@ -15,6 +15,9 @@
   //      Guía completa: deploy/README-cdn-fotos-b2.md
   const FOTOS = 'https://elecciones-fotos.nuevasnarrativas-ec.workers.dev/fotos/';
   // const FOTOS = 'assets/fotos/'; // <- descomenta esta para desarrollo local
+  // Hojas de vida en PDF: mismo bucket B2 y mismo Worker que las fotos, bajo
+  // el prefijo "hdv/". Ver deploy/README-cdn-fotos-b2.md y deploy/subir-hdv-b2.sh.
+  const HDV = 'https://elecciones-fotos.nuevasnarrativas-ec.workers.dev/hdv/';
   const LOGOS = 'assets/logos/';
   // slug estable del partido para el nombre de archivo del logo (ej. "Avanza País" -> "avanza_pais")
   const slugOrg = s => (s || '').toString().toLowerCase()
@@ -359,9 +362,13 @@
     const mueV = c.nmue ? money(c.vmue) : '';
     const form = formacionRows(c);
 
-    const pdfBtn = `<span class="fx__pdf is-disabled" title="No disponible en esta versión">
-        <img src="assets/img/pdf-icon.png" alt="" width="30" height="32">
-        <span>Descargar hoja de vida original en PDF</span></span>`;
+    const pdfBtn = c.hdv
+      ? `<a class="fx__pdf" href="${HDV}${c.dni}.pdf" target="_blank" rel="noopener">
+          <img src="assets/img/pdf-icon.png" alt="" width="30" height="32">
+          <span>Descargar hoja de vida original en PDF</span></a>`
+      : `<span class="fx__pdf is-disabled" title="No disponible">
+          <img src="assets/img/pdf-icon.png" alt="" width="30" height="32">
+          <span>Hoja de vida no disponible</span></span>`;
 
     return `
       <button class="ficha__close" data-close aria-label="Cerrar">&times;</button>

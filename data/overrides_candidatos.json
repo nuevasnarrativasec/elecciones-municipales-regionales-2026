@@ -1,0 +1,20 @@
+[
+  {
+    "dni": "19811609",
+    "nombre": "RUBEN JOSE RAMIREZ MATEO",
+    "cargo_original": "ALCALDE PROVINCIAL",
+    "org": "PARTIDO POLITICO NACIONAL PERU LIBRE",
+    "jurisdiccion": "LIMA / LIMA",
+    "motivo": "El JNE registra ESTADO_CANDIDATO=RENUNCIA, pero el equipo editorial confirmó (22/09/2026) que continúa postulando a Alcalde Provincial de Lima por Perú Libre. Se fuerza su inclusión como INSCRITO.",
+    "set": { "ESTADO_CANDIDATO": "INSCRITO" }
+  },
+  {
+    "dni": "07845838",
+    "nombre": "RAFAEL BERNARDO LOPEZ ALIAGA CAZORLA",
+    "cargo_original": "REGIDOR PROVINCIAL",
+    "org": "RENOVACION POPULAR PERU",
+    "jurisdiccion": "LIMA / LIMA",
+    "motivo": "Registrado ante el JNE como primer regidor provincial de Renovación Popular, pero el candidato titular a alcalde declinó y el equipo editorial confirmó (22/09/2026) que se le considera candidato a Alcalde Provincial de Lima. Se cambia su CARGO_POSTULA para que aparezca como cabeza de lista y deje de listarse como regidor.",
+    "set": { "CARGO_POSTULA": "ALCALDE PROVINCIAL" }
+  }
+]

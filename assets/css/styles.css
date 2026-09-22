@@ -45,7 +45,7 @@ header#header{
 .hero__badge-bottom{font-size:10px;font-weight:700;letter-spacing:.5px}
 .hero__title{font-family:"ivypresto-headline",var(--serif);font-weight:700;font-size:44px;margin: 0 auto 10px;}
 .hero__sub{color:var(--gray);    font-size: 15px;
-    max-width: 450px;
+    max-width: 500px;
     margin: 5px auto;}
 
 /* Filters */
@@ -86,7 +86,7 @@ header#header{
 
 /* Results */
 .results{padding-top:30px}
-.results__title{text-align:center;font-family:var(--serif);font-weight:700;font-size:30px;margin:0 0 6px; line-height: 1.2;}
+.results__title{text-align:center;font-family:var(--serif);font-weight:700;font-size:22px;margin:0 0 6px; line-height: 1.2;}
 .results__title--cv{font-family:"Roboto",Arial,sans-serif;font-weight:700;text-transform:uppercase;}
 .results__count{text-align:center;color:var(--gray);font-size:13px;margin:0 0 22px}
 .candlist{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
