@@ -47,10 +47,18 @@ header#header{
 .hero__sub{color:var(--gray);    font-size: 15px;
     max-width: 500px;
     margin: 5px auto;}
+.hero .titulo-regidores{
+  font-size: 3rem;
+}
+
+.box-hint-movil{
+  display: none;
+}
+  
 
 /* Filters */
 .filters{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:26px;padding:34px 0 12px;border-bottom:3px solid var(--line)}
-.fcol{position:relative;border: 1px solid #b1b0b0;border-radius:20px;background:#fff;padding:34px 18px 20px}
+.fcol{position:relative;border: 1px solid #8E8E8E;border-radius:20px;background:#fff;padding:34px 18px 20px}
 .fcol__head{display:none}
 .step{display:none}
 .fcol__title{position:absolute;top:-18px;left:14px;right:14px;margin:0;text-align:center;text-transform:uppercase;font-family:var(--sans);font-weight:700;font-size:15px;letter-spacing:.6px;line-height:1.1;background:#fff;border: 1px solid #b1b0b0;border-radius:999px;padding:12px 16px;box-shadow:0 4px 14px rgba(0,0,0,.05);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:background .15s,color .15s,border-color .15s}
@@ -194,7 +202,17 @@ background: linear-gradient(180deg, rgba(148, 159, 193, 1) 0%, rgba(235, 235, 23
 @media(max-width:820px){
   .filters{grid-template-columns:1fr 1fr;gap:20px}
   .candlist{grid-template-columns:1fr}
-  .hero__title{font-size:28px}
+  .hero__badge{
+      margin: 25px auto;
+  }
+  .hero__title{        
+    font-size: 4rem;
+    line-height: 1.1;
+  }
+  .hero__sub{
+      font-size: 1.3rem;
+      margin: 25px auto;
+  }
   .fx__top{flex-direction:column;text-align:center;gap:14px}
   .fx__deck{gap:16px}
   .fx__secbody{grid-template-columns:1fr;gap:0}
@@ -205,15 +223,19 @@ background: linear-gradient(180deg, rgba(148, 159, 193, 1) 0%, rgba(235, 235, 23
 
 /* En móvil, los filtros van a una sola columna */
 @media (max-width:640px){
-  .filters{grid-template-columns:1fr}
+  .filters{
+    grid-template-columns:1fr;
+    max-width: 300px;
+    margin: 0 auto;
+  }
   .fcol{
-        margin-bottom: 30px;
+    margin-bottom: 30px;
   }
   #candList li{
-        width: 84%;
+    width: 78%;
   }
   .results__title--cv{
-        font-size: 18px;
+    font-size: 20px;
   }
   body .box-metodologia{
         margin: 0 20px;
@@ -225,6 +247,46 @@ background: linear-gradient(180deg, rgba(148, 159, 193, 1) 0%, rgba(235, 235, 23
     body .footer-content ul li p{
       font-size: 1.2rem;
     }
+  .box-hint-movil{
+    display: block;
+    font: 1.1rem roboto;
+    font-weight: 600;
+    margin-top: 50px;
+  }
+    .box-hint-movil img{
+      display: block;
+      margin: 10px auto;
+      max-width: 20px;
+    }
+  body .box-metodologia h6{
+    font-size: 1.3rem;
+  }
+  body .box-metodologia p{
+    font: 1.3rem / 1.5 "Roboto", sans-serif;
+  }
+  .candcard__body{
+    row-gap: 3px;
+  }
+    .candcard__name{
+      font-size: 18px;
+    }
+    .candcard__meta,
+    .fx__row .lbl,
+    .fx__row .v,
+    .fx__sc-kind{
+      font-size: 16.5px;
+    }
+    .candcard__loc{
+      font-size: 16px;
+    }
+  .fx__col+.fx__col{
+        padding-left: 5px;
+  }
+  .fcol__title{
+    margin: 0 auto;
+    max-width: 170px;
+  }
+  
 }
 
 /* Separador entre la sección de candidatos y la de regidores */
