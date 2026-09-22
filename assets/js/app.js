@@ -981,7 +981,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // ---- Init ----
   (async function init() {
     try {
-      INDEX = await loadJSON('assets/data/index.json');
+      INDEX = await loadJSON('https://nuevasnarrativasec.github.io/elecciones-municipales-regionales-2026/assets/data/index.json');
       refreshForCargo();
       // El listado arranca vacío: se muestra al interactuar con los filtros.
       el.list.innerHTML = '';
