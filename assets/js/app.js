@@ -356,8 +356,12 @@
   function postulaTxt(c) {
     const cargo = cap(c.cargo);
     let lugar = '';
-    if (c.cargo === 'GOBERNADOR REGIONAL') lugar = cap(c.dep);
-    else if (c.cargo === 'ALCALDE PROVINCIAL') lugar = `${cap(c.prov)}, ${cap(c.dep)}`;
+    // Consejero Regional y Gobernador Regional postulan a nivel de departamento
+    // (no tienen provincia ni distrito). Alcalde/Regidor Provincial postulan a
+    // nivel de provincia (no tienen distrito). El resto (Alcalde/Regidor
+    // Distrital) postula a nivel de distrito.
+    if (c.cargo === 'GOBERNADOR REGIONAL' || c.cargo === 'CONSEJERO REGIONAL') lugar = cap(c.dep);
+    else if (c.cargo === 'ALCALDE PROVINCIAL' || c.cargo === 'REGIDOR PROVINCIAL') lugar = `${cap(c.prov)}, ${cap(c.dep)}`;
     else lugar = `${cap(c.dist)}, ${cap(c.dep)}`;
     return { cargo, lugar };
   }
