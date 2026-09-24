@@ -142,8 +142,11 @@ header#header{
 .fx__name{color:var(--navy);font-weight:800;font-size:27px;line-height:1.08;letter-spacing:.2px;margin-bottom:6px}
 .fx__age{color:#666;font-size:14px;line-height:1.4}
 .fx__party{color:#666;font-size:14px;line-height:1.4}
-.fx__nota-regidor{color:#666;font-size:13px;font-style:italic;line-height:1.4;margin-top:2px}
-.nota-ast{font-weight:700;color:var(--navy,#1c2f6b);margin-left:1px}
+.fx__nota-regidor{color: #c87f04;
+    font-size: 13px;
+    line-height: 1.4;
+    margin-top: 2px;}
+.nota-ast{font-weight:700;    color: #c97f04;margin-left:1px}
 
 /* Fila Postula / Transparencia */
 .fx__deck{    display: grid;

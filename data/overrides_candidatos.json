@@ -5,9 +5,10 @@
     "cargo_original": "ALCALDE PROVINCIAL",
     "org": "PARTIDO POLITICO NACIONAL PERU LIBRE",
     "jurisdiccion": "LIMA / LIMA",
-    "motivo": "El JNE registra ESTADO_CANDIDATO=RENUNCIA, pero el equipo editorial confirmó (22/09/2026) que continúa postulando a Alcalde Provincial de Lima por Perú Libre. Se fuerza su inclusión como INSCRITO.",
+    "motivo": "El JNE registra ESTADO_CANDIDATO=RENUNCIA. El 22/09/2026 el equipo editorial había forzado su inclusión como INSCRITO porque se creía que continuaba postulando, pero el 24/09/2026 se confirmó (Armando) que efectivamente se retiró. Se revierte el forzado: ya NO se le incluye en el listado de Alcalde Provincial de Lima.",
     "set": {
-      "ESTADO_CANDIDATO": "INSCRITO"
+      "ESTADO_CANDIDATO": "RENUNCIA",
+      "EXCLUIDO_DEL_SITIO": true
     }
   },
   {

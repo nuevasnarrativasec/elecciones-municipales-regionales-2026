@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://nuevasnarrativasec.github.io/elecciones-municipales-regionales-2026/assets/css/styles.css?v22">
+<link rel="stylesheet" href="./assets/css/styles.css?v23">
 
   <!--Ivy font-->
   <link rel="stylesheet" href="https://use.typekit.net/otp2meg.css">
@@ -241,36 +241,36 @@
     <div class="box-metodologia">
             <h6>Sobre nuestra metodología</h6>
             <p>
-                Este especial procesa los planes de gobierno del JNE utilizando automatización y agentes de Inteligencia Artificial para identificar qué temas prioriza cada partido y cuáles ignora. El análisis, apoyado por el fondo AI Catalyst de WAN-IFRA y OpenAI, combina la potencia del procesamiento de datos con una validación editorial humana paso a paso, garantizando una síntesis precisa, objetiva y comparable.
+                Este especial utiliza la base de datos estructurada proporcionada por el Jurado Nacional de Elecciones (JNE) en respuesta a una solicitud de acceso a la información pública. El archivo original, recibido en formato Excel, fue convertido a JSON y organizado por regiones para su integración en la herramienta. El equipo periodístico realizó la limpieza, estandarización y revisión de los datos antes de su publicación. No utilizamos inteligencia artificial para extraer, generar o completar información de las hojas de vida.
             </p>
             <p class="mas-metodologia" style="cursor: pointer; text-decoration: underline;">
                 Conoce los estándares del análisis
             </p>
 
             <div id="detalle-oculto" style="display: none; margin-top: 20px;">
-                <h6>1. Cómo procesamos la data:</h6>
+                <h6>1. Cómo procesamos la información</h6>
                 <p>
-                    <b>Estandarización:</b> Descargamos los planes del JNE y utilizamos flujos de automatización para limpiar, leer y uniformizar los diversos formatos de archivo.
+                    <b>Obtención de la data:</b> Solicitamos al JNE, mediante acceso a la información pública, los datos estructurados correspondientes a las hojas de vida presentadas por los candidatos.
                 </p>
                 <p>
-                    <b>Segmentación:</b> Dividimos cada plan en "unidades de análisis" para que la medición sea proporcional entre documentos de distinta extensión.
+                    <b>Limpieza y estandarización:</b> A partir de la base entregada por el JNE, corregimos formatos, homologamos categorías y organizamos los campos necesarios para hacer comparable la información entre candidatos.
                 </p>
                 <p>
-                    <b>Clasificación con IA:</b> Modelos de lenguaje clasificaron cada fragmento por tema y tono, calculando indicadores de enfoque, precisión técnica, densidad y variedad temática.
+                    <b>Revisión de consistencia:</b> Contrastamos los datos de la base con la documentación disponible y revisamos posibles inconsistencias, registros incompletos o campos que requerían una comprobación adicional.
                 </p>
                 <p>
-                    <b>Validación humana:</b> Ningún resultado se publicó automáticamente. El equipo editorial revisó y validó los resúmenes y clasificaciones finales para asegurar su rigor.
+                    <b>Validación editorial:</b> La información publicada fue revisada por el equipo periodístico antes de incorporarse al especial. Ningún dato fue generado, inferido o completado automáticamente mediante inteligencia artificial.
                 </p>
 
-                <h6>2. Cómo medimos el discurso</h6>
+                <h6>2. Cómo verificamos los datos</h6>
                 <p>
-                    Las métricas de Enfoque y Formulación de propuestas no juzgan la calidad ni la viabilidad política de una idea. Son clasificaciones descriptivas derivadas del Análisis Crítico del Discurso (ACD) y marcos teóricos de coherencia programática (siguiendo estándares como los de T.A. van Dijk y H. Klingemann).
+                    La información declarada por los candidatos ante el JNE constituye la base documental del especial. Para reducir errores de procesamiento, trabajamos sobre la *data oficial estructurada entregada por el propio organismo electoral*, en lugar de depender de una extracción automatizada desde documentos individuales.
                 </p>
                 <p>
-                    <b>Formulación de propuestas:</b> Evalúa el grado de precisión del planteamiento técnico. Indica si la propuesta articula una solución específica y si el texto incluye metas cuantificables y plazos (Detallada con indicadores), lineamientos de acción (Con lineamientos generales) o solo una intención (Declarativa).
+                    Cuando fue necesario aclarar o corroborar información relevante, recurrimos a la documentación oficial disponible y a otras fuentes públicas.
                 </p>
                 <p>
-                    <b>Enfoque Discursivo:</b> Identifica la orientación narrativa del texto. Determinamos si el plan prioriza la gestión y los datos (Tecnocrático), la ejecución de obras y acciones físicas (Operativo) o los principios, leyes y derechos (Normativo).
+                    Nuestro objetivo fue preservar la trazabilidad de los datos desde su fuente original, aplicar criterios comunes para todos los candidatos y distinguir claramente entre la información declarada ante el JNE y aquella que pudo ser corroborada mediante otras fuentes.
                 </p>
             </div>
     </div>
