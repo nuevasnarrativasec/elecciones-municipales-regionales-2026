@@ -53,7 +53,16 @@
 
   const norm = s => (s || '').toString().toLowerCase()
     .normalize('NFD').replace(/[\u0300-\u036f]/g, "");
-  const cap = s => (s || '').toLowerCase().replace(/(^|\s|\/)\p{L}/gu, m => m.toUpperCase());
+  // Números romanos: si la palabra original ya venía en mayúsculas y es un
+  // número romano válido (I, II, III, IV... hasta XX), se conserva en mayúsculas
+  // en vez de quedar como "Ii"/"Iii" al aplicar el Título de Caso.
+  const ROMAN_RE = /^(?=[MDCLXVI])M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})$/;
+  const isRoman = w => w.length > 0 && w === w.toUpperCase() && ROMAN_RE.test(w);
+  const cap = s => (s || '').toString().split(/(\s+|\/)/).map(tok => {
+    if (/^(\s+|\/)$/.test(tok) || tok === '') return tok;
+    if (isRoman(tok)) return tok;
+    return tok.toLowerCase().replace(/^\p{L}/u, m => m.toUpperCase());
+  }).join('');
   const val = (v, dash = 'No declara') => (v === '' || v == null) ? dash : v;
 
   async function loadJSON(path) {
@@ -254,7 +263,7 @@
     return `<li><button class="candcard" data-dni="${c.dni}">
       <span class="candcard__avatar"><span class="ini">${initials(c.nom).toUpperCase()}</span><img src="${FOTOS}${c.dni}.jpg" alt="" loading="lazy" onerror="this.remove()"></span>
       <span class="candcard__body">
-        <span class="candcard__name">${cap(c.nom)}</span>
+        <span class="candcard__name">${cap(c.nom)}${c.nota_regidor ? '<sup class="nota-ast">*</sup>' : ''}</span>
         <span class="candcard__meta">${cap(c.org)}</span>
         <span class="candcard__loc">${loc}</span>
       </span></button></li>`;
@@ -403,9 +412,10 @@
             <img class="fx__plogo" src="${LOGOS}${slugOrg(c.org)}.png" alt="" onerror="this.remove()">
           </div>
           <div class="fx__idcol">
-            <div class="fx__name">${cap(c.nom)}</div>
+            <div class="fx__name">${cap(c.nom)}${c.nota_regidor ? '<sup class="nota-ast">*</sup>' : ''}</div>
             <div class="fx__age">${edad}</div>
             <div class="fx__party">${cap(c.org)}</div>
+            ${c.nota_regidor ? '<div class="fx__nota-regidor">Postula como primer regidor</div>' : ''}
           </div>
         </div>
 

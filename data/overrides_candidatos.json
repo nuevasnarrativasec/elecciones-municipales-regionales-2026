@@ -6,7 +6,9 @@
     "org": "PARTIDO POLITICO NACIONAL PERU LIBRE",
     "jurisdiccion": "LIMA / LIMA",
     "motivo": "El JNE registra ESTADO_CANDIDATO=RENUNCIA, pero el equipo editorial confirmó (22/09/2026) que continúa postulando a Alcalde Provincial de Lima por Perú Libre. Se fuerza su inclusión como INSCRITO.",
-    "set": { "ESTADO_CANDIDATO": "INSCRITO" }
+    "set": {
+      "ESTADO_CANDIDATO": "INSCRITO"
+    }
   },
   {
     "dni": "07845838",
@@ -15,6 +17,21 @@
     "org": "RENOVACION POPULAR PERU",
     "jurisdiccion": "LIMA / LIMA",
     "motivo": "Registrado ante el JNE como primer regidor provincial de Renovación Popular, pero el candidato titular a alcalde declinó y el equipo editorial confirmó (22/09/2026) que se le considera candidato a Alcalde Provincial de Lima. Se cambia su CARGO_POSTULA para que aparezca como cabeza de lista y deje de listarse como regidor.",
-    "set": { "CARGO_POSTULA": "ALCALDE PROVINCIAL" }
+    "set": {
+      "CARGO_POSTULA": "ALCALDE PROVINCIAL",
+      "NOTA": "Se marca con asterisco en la ficha (nota_regidor=true) y se muestra \"Postula como primer regidor\" bajo el partido."
+    }
+  },
+  {
+    "dni": "40444232",
+    "nombre": "YURI CESAR CASTRO ROMERO",
+    "cargo_original": "REGIDOR PROVINCIAL",
+    "org": "PARTIDO POLITICO NACIONAL PERU LIBRE",
+    "jurisdiccion": "LIMA / LIMA",
+    "motivo": "Registrado ante el JNE como primer regidor provincial de Perú Libre. Por instrucción editorial (Armando, 24/09/2026) se le muestra como candidato a Alcalde Provincial de Lima, ya que es identificado públicamente como cabeza de lista del partido para la alcaldía. Se cambia su CARGO_POSTULA y se agrega la nota correspondiente.",
+    "set": {
+      "CARGO_POSTULA": "ALCALDE PROVINCIAL",
+      "NOTA": "Se marca con asterisco en la ficha (nota_regidor=true) y se muestra \"Postula como primer regidor\" bajo el partido."
+    }
   }
 ]
