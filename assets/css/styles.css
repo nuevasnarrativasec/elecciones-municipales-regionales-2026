@@ -383,7 +383,8 @@ span.separador-logo {
     margin: 0;
 }
 
-p.disclaimer{
+p.disclaimer,
+p.aviso{
     color: #fff;
     font: 1rem / 1.6 'Roboto', sans-serif;
     font-weight: 600;
