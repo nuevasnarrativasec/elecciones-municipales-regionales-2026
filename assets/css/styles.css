@@ -382,3 +382,11 @@ span.separador-logo {
     font-weight: 300;
     margin: 0;
 }
+
+p.disclaimer{
+  font: 1rem/1.6 'Roboto', sans-serif;
+  font-weight: 600;
+  margin: 50px auto 10px;
+  max-width: 360px;
+  text-align: center;
+}
