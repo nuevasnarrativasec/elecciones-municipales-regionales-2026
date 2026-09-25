@@ -384,9 +384,13 @@ span.separador-logo {
 }
 
 p.disclaimer{
-  font: 1rem/1.6 'Roboto', sans-serif;
-  font-weight: 600;
-  margin: 50px auto 10px;
-  max-width: 360px;
-  text-align: center;
+    color: #fff;
+    font: 1rem / 1.6 'Roboto', sans-serif;
+    font-weight: 600;
+    margin: 50px auto 10px;
+    max-width: 420px;
+    text-align: left;
+    background: #000;
+    border-radius: 15px;    
+    padding: 10px 25px;
 }
