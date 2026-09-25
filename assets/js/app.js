@@ -266,12 +266,14 @@
 
   function cardHTML(c) {
     const loc = [cap(c.dist), cap(c.prov), cap(c.dep)].filter(Boolean).join(', ');
-    return `<li><button class="candcard" data-dni="${c.dni}">
+    const renuncioCls = c.renuncio ? ' candcard--renuncio' : '';
+    return `<li><button class="candcard${renuncioCls}" data-dni="${c.dni}">
       <span class="candcard__avatar"><span class="ini">${initials(c.nom).toUpperCase()}</span><img src="${FOTOS}${c.dni}.jpg" alt="" loading="lazy" onerror="this.remove()"></span>
       <span class="candcard__body">
         <span class="candcard__name">${cap(c.nom)}${c.nota_regidor ? '<sup class="nota-ast">*</sup>' : ''}</span>
         <span class="candcard__meta">${cap(c.org)}</span>
         <span class="candcard__loc">${loc}</span>
+        ${c.renuncio ? '<span class="candcard__renuncio">Renunció a su candidatura</span>' : ''}
       </span></button></li>`;
   }
 
@@ -426,6 +428,7 @@
             <div class="fx__age">${edad}</div>
             <div class="fx__party">${cap(c.org)}</div>
             ${c.nota_regidor ? '<div class="fx__nota-regidor">Postula como primer regidor</div>' : ''}
+            ${c.renuncio ? '<div class="fx__nota-renuncio">Renunció a su candidatura</div>' : ''}
           </div>
         </div>
 
@@ -673,7 +676,7 @@
       .sort((a, b) => cap(a.nom).localeCompare(cap(b.nom), 'es'));
     const prevCand = rg.cand.value;
     rg.cand.innerHTML = '<option value="">Candidato</option>' +
-      cands.map(c => `<option value="${escAttr(c.org)}">${cap(c.nom)} · ${cap(c.org)}</option>`).join('');
+      cands.map(c => `<option value="${escAttr(c.org)}">${cap(c.nom)} · ${cap(c.org)}${c.renuncio ? ' (renunció)' : ''}</option>`).join('');
     // Si el candidato previo sigue siendo válido, se conserva. Si hay un partido
     // elegido y candidatos disponibles, se autoselecciona el candidato para que
     // el usuario no tenga que elegirlo manualmente.
