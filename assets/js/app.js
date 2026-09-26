@@ -609,6 +609,13 @@
     prov: ['regidor provincial', 'regidores provinciales'],
     dist: ['regidor distrital', 'regidores distritales']
   };
+  // Título de la sección de resultados: varía según el nivel activo (cons =
+  // solo región -> consejeros regionales; prov / dist -> regidores).
+  const REG_RESULT_TITLE = {
+    cons: 'Candidatos a consejero regional encontrados',
+    prov: 'Candidatos a regidor provincial encontrados',
+    dist: 'Candidatos a regidor distrital encontrados'
+  };
   let REG_INDEX = null;
   let regCache = {};        // depSlug -> regidores[]
   let regData = [];         // regidores del departamento activo
@@ -726,8 +733,8 @@
     regFiltered = regData.filter(r => norm(r.nom).includes(q));
     regShown = 0; rg.list.innerHTML = '';
     regRenderMore();
-    rg.count.textContent = `${regFiltered.length.toLocaleString('es-PE')} regidor${regFiltered.length === 1 ? '' : 'es'}`;
-    if (regFiltered.length) setResultsTitle('rgTitle', 'Candidatos a regidores encontrados');
+    rg.count.textContent = `${regFiltered.length.toLocaleString('es-PE')} regidor${regFiltered.length === 1 ? '' : 'es'}/consejero${regFiltered.length === 1 ? '' : 's'}`;
+    if (regFiltered.length) setResultsTitle('rgTitle', 'Candidatos a regidores y consejeros regionales encontrados');
   }
 
   async function regApply() {
@@ -743,7 +750,7 @@
       if (q.length >= 3) { await regSearchByName(q); return; }
       regFiltered = []; regShown = 0; rg.list.innerHTML = '';
       rg.loadWrap.hidden = true;
-      rg.count.textContent = 'Elige una región o escribe un nombre.';
+      rg.count.textContent = 'Elige una región (para ver consejeros regionales) o escribe un nombre.';
       return;
     }
 
@@ -781,7 +788,7 @@
     regRenderMore();
     const noun = REG_NOUN[lvl][regFiltered.length === 1 ? 0 : 1];
     rg.count.textContent = `${regFiltered.length.toLocaleString('es-PE')} ${noun}`;
-    if (regFiltered.length) setResultsTitle('rgTitle', 'Candidatos a regidores encontrados');
+    if (regFiltered.length) setResultsTitle('rgTitle', REG_RESULT_TITLE[lvl]);
   }
 
   function regRenderMore() {
@@ -1016,7 +1023,7 @@ document.addEventListener('DOMContentLoaded', function() {
       el.count.textContent = 'Usa los filtros para ver los candidatos.';
       REG_INDEX = await loadJSON(`${BASE}assets/data/reg_index.json`);
       fillSelect(rg.region, Object.keys(REG_INDEX.deps).sort(), 'Región');
-      rg.count.textContent = 'Elige una región para empezar.';
+      rg.count.textContent = 'Elige una región para empezar (consejeros regionales) o suma provincia/distrito (regidores).';
     } catch (e) {
       el.count.textContent = 'No se pudieron cargar los datos. Sirve el sitio por HTTP (localhost).';
       console.error(e);
