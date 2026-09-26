@@ -46,7 +46,9 @@ header#header{
 .hero__title{font-family:"ivypresto-headline",var(--serif);font-weight:700;font-size:44px;margin: 0 auto 10px;}
 .hero__sub{color:var(--gray);    font-size: 15px;
     max-width: 500px;
-    margin: 5px auto;}
+    margin: 5px auto;
+        line-height: 1.5;
+  }
 .hero .titulo-regidores{
   font-size: 3rem;
 }
